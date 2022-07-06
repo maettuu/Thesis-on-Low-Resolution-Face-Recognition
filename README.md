@@ -35,11 +35,11 @@ Choose between `close`, `medium` or `far` protocol used for the comparison (defa
 * --comparison_method, -c\
 Specify a comparison method (default: `all`)
 
-| Approach                   | Comparison Methods                                                                                                         |
-|----------------------------|----------------------------------------------------------------------------------------------------------------------------|
-| direct comparison          | `baseline`                                                                                                                 |
-| rank list comparison       | `mueller2010`, `mueller2013`, `schroff`, `kendall`, `scipy_kendall`, `weighted_kendall`, `spearman`, `wartmann_parametric` |
-| cosine distance comparison | `braycurtis`, `canberra`, `chebyshev`, `cityblock`, `correlation`, `cosine`, `euclidean`, `minkowski`, `sqeuclidean`       |
+| Approach                | Comparison Methods                                                                                                         |
+|-------------------------|----------------------------------------------------------------------------------------------------------------------------|
+| direct comparison       | `baseline`                                                                                                                 |
+| rank list comparison    | `mueller2010`, `mueller2013`, `schroff`, `kendall`, `scipy_kendall`, `weighted_kendall`, `spearman`, `wartmann_parametric` |
+| mean shifted comparison | `braycurtis`, `canberra`, `chebyshev`, `cityblock`, `correlation`, `cosine`, `euclidean`, `minkowski`, `sqeuclidean`       |
 
 * --record_output, -r\
 Include to record scores (default: `False`)
