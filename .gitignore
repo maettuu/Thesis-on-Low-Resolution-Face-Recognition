@@ -135,3 +135,6 @@ parts/
 src/
 .installed.cfg
 .mr.developer.cfg
+
+# extracted features
+samples_pipe_all/
