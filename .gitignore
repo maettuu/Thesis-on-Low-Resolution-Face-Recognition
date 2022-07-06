@@ -138,3 +138,6 @@ src/
 
 # extracted features
 samples_pipe_all/
+
+# code generated files
+output/
