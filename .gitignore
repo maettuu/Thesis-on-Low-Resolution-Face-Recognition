@@ -9,21 +9,17 @@ __pycache__/
 # Distribution / packaging
 .Python
 build/
-develop-eggs/
 dist/
 downloads/
-eggs/
 .eggs/
 lib/
 lib64/
-parts/
 sdist/
 var/
 wheels/
 pip-wheel-metadata/
 share/python-wheels/
 *.egg-info/
-.installed.cfg
 *.egg
 MANIFEST
 
@@ -130,3 +126,12 @@ dmypy.json
 
 # PyCharm generated files
 .idea/
+
+# buildout generated files
+bin/
+develop-eggs/
+eggs/
+parts/
+src/
+.installed.cfg
+.mr.developer.cfg
