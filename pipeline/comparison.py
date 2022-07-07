@@ -24,6 +24,7 @@ mueller2013_lambda = 0.99
 schroff_k = 43
 wartmann_alpha = 1.5
 wartmann_beta = 5
+minkowski_p = 2
 
 
 ####################################################
@@ -181,7 +182,7 @@ def euclidean(probe_sample, reference_sample):
 
 # compute similarity of two lists with the help of minkowski distance
 def minkowski(probe_sample, reference_sample):
-    return -scipy.spatial.distance.minkowski(probe_sample.cosine_distances, reference_sample.cosine_distances, 2)
+    return -scipy.spatial.distance.minkowski(probe_sample.cosine_distances, reference_sample.cosine_distances, minkowski_p)
 
 
 # compute similarity of two lists with the help of sqeuclidean distance
