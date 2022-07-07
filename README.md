@@ -51,7 +51,7 @@ To evaluate the verification results use the following command including the fil
 bin/bob bio roc -v -o <output-filename>.pdf -ts "<graph-title>" -lg <line-names> <csv-files>
 ```
 
-##Observations
+## Observations
 The following properties were observed:
 * The rank list comparison method `spearman` has the same results (both identification and verification) as the method `schroff`, however the latter proves to be faster in execution.
 * The implemented rank list comparison method `kendall` proves to be faster in execution than the method provided by `scipy.stats.kendalltau` yielding the same results  (both identification and verification).
