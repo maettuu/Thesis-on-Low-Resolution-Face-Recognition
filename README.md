@@ -54,6 +54,6 @@ bin/bob bio roc -v -o <output-filename>.pdf -ts "<graph-title>" -lg <line-names>
 ## Observations
 The following properties were observed:
 * The rank list comparison method `spearman` has the same results (both identification and verification) as the method `schroff`, however the latter proves to be faster in execution.
-* The implemented rank list comparison method `kendall` proves to be faster in execution than the method provided by `scipy.stats.kendalltau` yielding the same results  (both identification and verification).
+* The implemented rank list comparison method `kendall` proves to be faster in execution than the method provided by `scipy.stats.kendalltau` namely `scipy_kendall` yielding the same results  (both identification and verification).
 * The mean-shifted comparison method `sqeuclidean` trivially has the same results (both identification and verification) as the method `euclidean`, however proves to be faster in execution.
 * If `p=2` is chosen for the mean-shifted comparison method `minkowski` the results (both identification and verification) are the same as `euclidean` and `sqeuclidean` by means of definition.
