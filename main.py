@@ -4,10 +4,10 @@
 #                                                  #
 ####################################################
 
-from parser import parse_input, generate_lists
-from helper import get_category, print_start
-from preprocessing import run_preprocessing
-from comparison import run_comparison
+from pipeline.parser import parse_input, generate_lists
+from pipeline.preprocessing import run_preprocessing
+from pipeline.comparison import run_comparison
+from helpers.colors_n_category import get_category, print_start
 
 
 ####################################################

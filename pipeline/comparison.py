@@ -9,7 +9,7 @@ import numpy as np
 import scipy.spatial
 import scipy.stats
 import time
-from file_writing import file_creation, save_scores, save_results, close_files
+from helpers.file_writing import file_creation, save_scores, save_results, close_files
 
 
 ####################################################

@@ -43,7 +43,7 @@ def parse_input():
                         action='store_true',
                         help="Include to record scores"
                         )
-    parser.set_defaults(record_output=False)
+    parser.set_defaults(record_output=True)
 
     # extract arguments from parser
     args = parser.parse_args()
