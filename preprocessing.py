@@ -10,7 +10,7 @@ import bob.extension
 import numpy as np
 import scipy.spatial
 import pathlib
-# from parser import Colors
+from helper import Colors
 
 
 ####################################################
@@ -26,7 +26,14 @@ directory_path = file_path + "/samples_pipe_all/samplewrapper-2/"
 # used to define original_directory
 bob.extension.rc["bob.bio.face.scface.directory"] = directory_path
 
-# used for mean shifted lists of cosine distances
+
+####################################################
+#                                                  #
+#                 Global Variables                 #
+#                                                  #
+####################################################
+
+# used for weighting mean shifted lists
 reference_theta = 1
 probe_theta = 1
 
@@ -38,22 +45,22 @@ probe_theta = 1
 ####################################################
 
 # used to extract probes, references and cohort from database
-def extract_samples(extraction_protocol):
+def extract_samples(protocol):
     # define database using chosen protocol
-    database = bob.bio.face.database.SCFaceDatabase(extraction_protocol)
+    database = bob.bio.face.database.SCFaceDatabase(protocol)
 
     # several samples pointing to same reference_id, but must be looked at separately
     # extract probes, references and cohorts from database
-    extracted_probes = database.probes()
+    probes = database.probes()
     # probes = database.probes(group="eval")
 
-    extracted_references = database.references()
+    references = database.references()
     # references = database.references(group="eval")
 
-    extracted_cohort = database.background_model_samples()
+    cohort = database.background_model_samples()
     # cohort = database.references(group="dev") + database.probes(group="dev")
 
-    return extracted_probes, extracted_references, extracted_cohort
+    return probes, references, cohort
 
 
 # load features of single sample
@@ -67,7 +74,8 @@ def load_features(sample):
         sample.features = sample_features
     # terminate if file not found
     except RuntimeError:
-        # print(f"\n{Colors.BOLD}{Colors.CRED}WARNING:{Colors.ENDC} File '%s' not found!\n\n{Colors.BOLD}{Colors.CRED}PROCESS TERMINATED{Colors.ENDC}" % new_sample_key)
+        print(f"\n{Colors.BOLD}{Colors.CRED}WARNING:{Colors.ENDC} File '%s' not found!\n\n"
+              f"{Colors.BOLD}{Colors.CRED}PROCESS TERMINATED{Colors.ENDC}" % new_sample_key)
         exit()
 
     return sample
@@ -94,6 +102,7 @@ def unwrap_sets(image_set, collected_samples):
         for sample in sample_set:
             collected_samples.append(sample)
 
+
 # used to split cohort samples into cohort probes and cohort references
 def split_cohort(cohort_samples, protocol):
     # instantiate lists for cohort probes and cohort references
@@ -116,13 +125,13 @@ def split_cohort(cohort_samples, protocol):
 
 
 # used to take the average of all features from samples with the same subject_id
-def calculate_average(cohort_probes):
+def calculate_average(samples):
 
     # instantiate dictionary for subjects with several features
     subjects_with_several_features = {}
 
     # loop through samples and extract features of all samples with the same subject_id
-    for sample in cohort_probes:
+    for sample in samples:
         curr_subject_id = sample.subject_id
         # add entry if subject_id is not yet in dictionary, else extract already recorded features and add current ones
         if curr_subject_id not in subjects_with_several_features:
@@ -213,6 +222,3 @@ def run_preprocessing(category, protocol):
             mean_shift(reference_samples, cohort_reference)
 
     return probe_samples, reference_samples
-
-# # update process status
-# print("DONE!")

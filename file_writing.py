@@ -10,26 +10,38 @@ import pathlib
 
 ####################################################
 #                                                  #
+#                 Global Variables                 #
+#                                                  #
+####################################################
+
+scores_dev = None
+scores_writer = None
+recognition_file = None
+
+
+####################################################
+#                                                  #
 #                   File Writing                   #
 #                                                  #
 ####################################################
 
 # used to create data files
-def file_creation(protocol, chosen_method, record_output):
+def file_creation(comparison_method, protocol, record_output):
     # initialize file helpers
-    scores_dev = None
-    scores_writer = None
-    recognition_file = None
+    global scores_dev
+    global scores_writer
+    global recognition_file
 
     if record_output:
         # create output directory
         pathlib.Path("output").mkdir(exist_ok=True)
 
         # filename consists of protocol and comparison method (e.g. close-baseline.csv)
-        filename = protocol + "-" + chosen_method + ".csv"
+        filename = protocol + "-" + comparison_method + ".csv"
         scores_dev = open("output/" + filename, 'w')
         scores_writer = csv.writer(scores_dev)
-        scores_header = ['probe_reference_id', 'probe_subject_id', 'bio_ref_reference_id', 'bio_ref_subject_id', 'score']
+        scores_header = ['probe_reference_id', 'probe_subject_id',
+                         'bio_ref_reference_id', 'bio_ref_subject_id', 'score']
         # add header
         scores_writer.writerow(scores_header)
 
@@ -38,32 +50,51 @@ def file_creation(protocol, chosen_method, record_output):
         # seek to beginning of file and check for content
         recognition_file.seek(0)
 
-        # add header if file is empty (i.e. was newly created), otherwise close and re-open to set cursor to end of file
+        # add header if file is empty (i.e. was newly created),
+        # otherwise close and re-open to set cursor to end of file
         if not recognition_file.readlines():
-            recognition_file.write(f'{"comparison_method":{20}} {"close_recog_rate":{20}} {"medium_recog_rate":{20}} {"far_recog_rate":{20}} {"runtime"}\n')
+            recognition_file.write(f'{"comparison_method":{20}} {"close_recog_rate":{20}} {"medium_recog_rate":{20}}'
+                                   f' {"far_recog_rate":{20}} {"runtime"}\n')
         else:
             recognition_file.close()
             recognition_file = open("output/recognition-rates-and-runtime.txt", 'a')
 
-    return scores_dev, scores_writer, recognition_file
+
+# used to save similarity scores from each comparison
+def save_scores(data):
+    if scores_writer:
+        scores_writer.writerow(data)
 
 
 # used to print recognition rate and runtime of close protocol
-def close(recognition_file, comparison_method, recognition_rate, runtime):
-    recognition_file.write(f'{comparison_method:{20}} {recognition_rate:{20}} {"":{20}} {"":{20}} {runtime}\n')
+def close(comparison_method, recognition_rate, runtime):
+    if recognition_file:
+        recognition_file.write(f'{comparison_method:{20}} {recognition_rate:{20}} {"":{20}} {"":{20}} {runtime}\n')
 
 
 # used to print recognition rate and runtime of medium protocol
-def medium(recognition_file, comparison_method, recognition_rate, runtime):
-    recognition_file.write(f'{comparison_method:{20}} {"":{20}} {recognition_rate:{20}} {"":{20}} {runtime}\n')
+def medium(comparison_method, recognition_rate, runtime):
+    if recognition_file:
+        recognition_file.write(f'{comparison_method:{20}} {"":{20}} {recognition_rate:{20}} {"":{20}} {runtime}\n')
 
 
 # used to print recognition rate and runtime of far protocol
-def far(recognition_file, comparison_method, recognition_rate, runtime):
-    recognition_file.write(f'{comparison_method:{20}} {"":{20}} {"":{20}} {recognition_rate:{20}} {runtime}\n')
+def far(comparison_method, recognition_rate, runtime):
+    if recognition_file:
+        recognition_file.write(f'{comparison_method:{20}} {"":{20}} {"":{20}} {recognition_rate:{20}} {runtime}\n')
 
 
 # used to extract protocol and print at correct position
-def save_recognition_and_runtime(recognition_file, comparison_method, recognition_rate, runtime, protocol):
+def save_results(comparison_method, protocol, recognition_rate, runtime):
     format_type = eval(protocol)
-    format_type(recognition_file, comparison_method, recognition_rate, runtime)
+    format_type(comparison_method, recognition_rate, runtime)
+
+
+# used to close all files
+def close_files():
+    global scores_dev
+    global recognition_file
+    if scores_dev:
+        scores_dev.close()
+    if recognition_file:
+        recognition_file.close()
