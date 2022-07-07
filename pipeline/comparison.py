@@ -169,11 +169,6 @@ def cityblock(probe_sample, reference_sample):
     return -scipy.spatial.distance.cityblock(probe_sample.cosine_distances, reference_sample.cosine_distances)
 
 
-# compute similarity of two lists with the help of correlation distance
-def correlation(probe_sample, reference_sample):
-    return -scipy.spatial.distance.correlation(probe_sample.cosine_distances, reference_sample.cosine_distances)
-
-
 # compute similarity of two lists with the help of cosine distance
 def cosine(probe_sample, reference_sample):
     return -scipy.spatial.distance.cosine(probe_sample.cosine_distances, reference_sample.cosine_distances)

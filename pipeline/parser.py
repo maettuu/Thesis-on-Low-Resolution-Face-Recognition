@@ -18,7 +18,7 @@ import argparse
 available_protocols = ["close", "medium", "far", "all"]
 available_methods = ["baseline", "mueller2010", "mueller2013", "schroff", "kendall", "scipy_kendall",
                      "weighted_kendall", "spearman", "wartmann_parametric", "braycurtis", "canberra", "chebyshev",
-                     "cityblock", "correlation", "cosine", "euclidean", "minkowski", "sqeuclidean", "all"]
+                     "cityblock", "cosine", "euclidean", "minkowski", "sqeuclidean", "all"]
 
 
 def parse_input():

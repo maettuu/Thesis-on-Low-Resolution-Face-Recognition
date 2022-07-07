@@ -21,7 +21,7 @@ class Colors:
 # define categories
 rank_list_comparison = ["mueller2010", "mueller2013", "schroff", "kendall", "scipy_kendall", "weighted_kendall",
                         "spearman", "wartmann_parametric"]
-mean_shifted_comparison = ["braycurtis", "canberra", "chebyshev", "cityblock", "correlation", "cosine", "euclidean",
+mean_shifted_comparison = ["braycurtis", "canberra", "chebyshev", "cityblock", "cosine", "euclidean",
                            "minkowski", "sqeuclidean"]
 
 
