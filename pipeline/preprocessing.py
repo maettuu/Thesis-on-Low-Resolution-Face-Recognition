@@ -10,7 +10,7 @@ import bob.extension
 import numpy as np
 import scipy.spatial
 import pathlib
-from helper import Colors
+from helpers.colors_n_category import Colors
 
 
 ####################################################

@@ -24,7 +24,7 @@ To successfully install the required packages for running the `simple_pipe.py` f
 ## Feature Extraction
 Install all necessary packages for `simple_pipe.py` and run the following command three times using `close`, `medium` and `far` each once as protocol.
 ```
-bin/bob bio pipelines vanilla-biometrics scface-<protocol> ./simple_pipe.py -vvv -o samples_pipe_all -c --group eval
+bin/bob bio pipelines vanilla-biometrics scface-<protocol> ./helpers/simple_pipe.py -vvv -o samples_pipe_all -c --group eval
 ```
 This runs the pipeline and saves all checkpoint data in a folder called `samples_pipe_all`. The extracted features used for this project can be found in the subdirectory called `samplewrapper-2`. To read the files simply use the terminal with the command `h5dump -y <filename>.h5`
 
