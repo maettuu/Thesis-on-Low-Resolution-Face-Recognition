@@ -40,14 +40,3 @@ if __name__ == '__main__':
 # bin/bob bio pipelines vanilla-biometrics scface-close ./simple_pipe.py -vvv -o samples_pipe_all -c --group eval
 # bin/bob bio evaluate ./results/scores-dev.csv
 # h5dump -y file.h5
-
-
-####################################################
-#                                                  #
-#                 Helpful Results                  #
-#                                                  #
-####################################################
-
-# spearman = schroff (faster!)
-# kendall (faster) = scipy_kendall
-# euclidean = sqeuclidean (fastest) = minkowski (faster)
