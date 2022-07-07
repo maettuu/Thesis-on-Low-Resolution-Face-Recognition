@@ -9,7 +9,7 @@ import numpy as np
 import scipy.spatial
 import scipy.stats
 import time
-from file_writing import file_creation, save_recognition_and_runtime
+from file_writing import file_creation, save_scores, save_results, close_files
 
 
 ####################################################
@@ -33,26 +33,19 @@ wartmann_beta = 5
 ####################################################
 
 # used to calculate cosine distances between one probe and all references (used for baseline)
-def baseline(probe_sample, reference_samples, scores_writer):
+def baseline(probe_sample, reference_samples):
     # instantiate list for calculated cosine distances between probe sample and all reference samples
     cosine_distances = []
 
-    # save data to csv file
-    if scores_writer:
-        for reference_sample in reference_samples:
-            # calculate and save cosine distance between probe and current reference sample
-            cosine_distance = scipy.spatial.distance.cosine(probe_sample.features, reference_sample.features)
-            cosine_distances.append(cosine_distance)
+    for reference_sample in reference_samples:
+        # calculate and save cosine distance between probe and current reference sample
+        cosine_distance = scipy.spatial.distance.cosine(probe_sample.features, reference_sample.features)
+        cosine_distances.append(cosine_distance)
 
-            data = [probe_sample.reference_id, probe_sample.subject_id,
-                    reference_sample.reference_id, reference_sample.subject_id,
-                    -cosine_distance]
-            scores_writer.writerow(data)
-    else:
-        for reference_sample in reference_samples:
-            # calculate and save cosine distance between probe and current reference sample
-            cosine_distance = scipy.spatial.distance.cosine(probe_sample.features, reference_sample.features)
-            cosine_distances.append(cosine_distance)
+        data = [probe_sample.reference_id, probe_sample.subject_id,
+                reference_sample.reference_id, reference_sample.subject_id,
+                -cosine_distance]
+        save_scores(data)
 
     return -np.array(cosine_distances)
 
@@ -208,38 +201,31 @@ def sqeuclidean(probe_sample, reference_sample):
 ####################################################
 
 # used to calculate similarity scores between one probe and all references
-def get_similarity_scores(run_baseline, computation_function, probe_sample, reference_samples, scores_writer):
-    if run_baseline:
-        return computation_function(probe_sample, reference_samples, scores_writer)
+def get_similarity_scores(probe_sample, reference_samples, category, comparison_function):
+    if not category:
+        return comparison_function(probe_sample, reference_samples)
     else:
         # instantiate list for calculated similarity scores between
         # probe sample rank list and all reference sample rank lists
         similarity_scores = []
 
-        # save data to csv file
-        if scores_writer:
-            for reference_sample in reference_samples:
-                similarity_score = computation_function(probe_sample, reference_sample)
-                # append the score to the list
-                similarity_scores.append(similarity_score)
+        for reference_sample in reference_samples:
+            similarity_score = comparison_function(probe_sample, reference_sample)
+            # append the score to the list
+            similarity_scores.append(similarity_score)
 
-                data = [probe_sample.reference_id, probe_sample.subject_id,
-                        reference_sample.reference_id, reference_sample.subject_id,
-                        similarity_score]
-                scores_writer.writerow(data)
-        else:
-            for reference_sample in reference_samples:
-                similarity_score = computation_function(probe_sample, reference_sample)
-                # append the score to the list
-                similarity_scores.append(similarity_score)
+            data = [probe_sample.reference_id, probe_sample.subject_id,
+                    reference_sample.reference_id, reference_sample.subject_id,
+                    similarity_score]
+            save_scores(data)
 
         return np.array(similarity_scores)
 
 
 # used to see whether the correct reference sample is paired with the current probe sample
-def check_for_positive_match(probe_sample):
-    # return 1 for positive matches (if the reference_ids are the same)
-    if probe_sample.subject_id == probe_sample.matching_reference_sample:
+def get_match_result(probe_sample, reference_sample):
+    # return 1 for positive matches (if the subject_ids are the same)
+    if probe_sample.subject_id == reference_sample.subject_id:
         return 1
 
     return 0
@@ -252,39 +238,33 @@ def check_for_positive_match(probe_sample):
 ####################################################
 
 # used to run comparison with chosen method
-def run_comparison(chosen_method, run_baseline, protocol, probe_samples, reference_samples, record_output):
-    # assign default function to variable for computation
-    computation_function = eval(chosen_method)
-
+def run_comparison(probe_samples, reference_samples, category, comparison_method, protocol, record_output):
     # used to record output
-    scores_dev, scores_writer, recognition_file = file_creation(protocol, chosen_method, record_output)
+    file_creation(comparison_method, protocol, record_output)
+
+    # assign default function to variable for computation
+    comparison_function = eval(comparison_method)
 
     # used to keep track of positive matches (equal subject_id for probe and reference sample)
-    pos_match = 0
+    positive_matches = 0
 
     # used for measuring runtime
     start_time_cpu = time.process_time()
 
     for probe_sample in probe_samples:
-        computation_result = get_similarity_scores(
-            run_baseline, computation_function, probe_sample, reference_samples, scores_writer
-        )
-        max_index = np.argmax(computation_result)
-        matching_id = reference_samples[max_index].subject_id
-        # keep track of matching reference sample
-        probe_sample.matching_reference_sample = matching_id
-
-        pos_match += check_for_positive_match(probe_sample)
-
-    # calculate recognition rate by dividing positive matches by total amount of references
-    recognition_rate = pos_match / len(probe_samples)
+        result = get_similarity_scores(probe_sample, reference_samples, category, comparison_function)
+        max_score_index = np.argmax(result)
+        positive_matches += get_match_result(probe_sample, reference_samples[max_score_index])
 
     # stop runtime measurement
     stop_time_cpu = time.process_time()
 
+    # calculate recognition rate by dividing positive matches by total amount of references
+    recognition_rate = positive_matches / len(probe_samples)
+
     # save recognition rate and runtime before closing files
     if record_output:
-        save_recognition_and_runtime(recognition_file, chosen_method, ("{:.2f}".format(recognition_rate*100)) + " %", ("{:.4f}".format((stop_time_cpu - start_time_cpu)*1000)) + " ms", protocol)
-        scores_dev.close()
-        recognition_file.close()
-
+        recognition_rate = ("{:.2f}".format(recognition_rate * 100)) + " %"
+        runtime = ("{:.4f}".format((stop_time_cpu - start_time_cpu) * 1000)) + " ms"
+        save_results(comparison_method, protocol, recognition_rate, runtime)
+        close_files()

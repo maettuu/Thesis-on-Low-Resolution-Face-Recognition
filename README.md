@@ -27,3 +27,26 @@ Install all necessary packages for `simple_pipe.py` and run the following comman
 bin/bob bio pipelines vanilla-biometrics scface-<protocol> ./simple_pipe.py -vvv -o samples_pipe_all -c --group eval
 ```
 This runs the pipeline and saves all checkpoint data in a folder called `samples_pipe_all`. The extracted features used for this project can be found in the subdirectory called `samplewrapper-2`. To read the files simply use the terminal with the command `h5dump -y <filename>.h5`
+
+## Running the Code
+Use the terminal for starting the script with the command `bin/python main.py`. The following options are available:
+* --protocol, -p\
+Choose between `close`, `medium` or `far` protocol used for the comparison (default: `all`)
+* --comparison_method, -c\
+Specify a comparison method (default: `all`)
+
+| Approach                | Comparison Methods                                                                                                         |
+|-------------------------|----------------------------------------------------------------------------------------------------------------------------|
+| direct comparison       | `baseline`                                                                                                                 |
+| rank list comparison    | `mueller2010`, `mueller2013`, `schroff`, `kendall`, `scipy_kendall`, `weighted_kendall`, `spearman`, `wartmann_parametric` |
+| mean shifted comparison | `braycurtis`, `canberra`, `chebyshev`, `cityblock`, `correlation`, `cosine`, `euclidean`, `minkowski`, `sqeuclidean`       |
+
+* --record_output, -r\
+Include to record scores (default: `False`)
+
+## Evaluation of Results
+If the recording of scores is enabled, an output folder is created in which there are `.csv` files for every comparison method and protocol used for verification as well as a `.txt` file containing the recognition rates and runtimes used for identification.\
+To evaluate the verification results use the following command including the files you wish to visualize:
+```
+bin/bob bio roc -v -o <output-filename>.pdf -ts "<graph-title>" -lg <line-names> <csv-files>
+```
