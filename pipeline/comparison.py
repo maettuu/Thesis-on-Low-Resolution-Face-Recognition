@@ -21,7 +21,7 @@ from helpers.file_writing import file_creation, save_scores, save_results, close
 
 # used for rank list comparison methods
 mueller2013_lambda = 0.99
-schroff_k = 43
+schroff_k = 60
 wartmann_alpha = 1.5
 wartmann_beta = 5
 
@@ -258,6 +258,7 @@ def run_comparison(probe_samples, reference_samples, category, comparison_method
 
     # stop runtime measurement
     stop_time_cpu = time.process_time()
+    runtime = stop_time_cpu - start_time_cpu
 
     # calculate recognition rate by dividing positive matches by total amount of references
     recognition_rate = positive_matches / len(probe_samples)
@@ -265,6 +266,5 @@ def run_comparison(probe_samples, reference_samples, category, comparison_method
     # save recognition rate and runtime before closing files
     if record_output:
         recognition_rate = ("{:.2f}".format(recognition_rate * 100)) + " %"
-        runtime = ("{:.4f}".format((stop_time_cpu - start_time_cpu) * 1000)) + " ms"
         save_results(comparison_method, protocol, recognition_rate, runtime)
         close_files()
