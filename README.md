@@ -35,11 +35,11 @@ Choose between `close`, `medium` or `far` protocol used for the comparison (defa
 * --comparison_method, -c\
 Specify a comparison method (default: `all`)
 
-| Approach                | Comparison Methods                                                                                                         |
-|-------------------------|----------------------------------------------------------------------------------------------------------------------------|
-| direct comparison       | `baseline`                                                                                                                 |
-| rank list comparison    | `mueller2010`, `mueller2013`, `schroff`, `kendall`, `scipy_kendall`, `weighted_kendall`, `spearman`, `wartmann_parametric` |
-| mean-shifted comparison | `braycurtis`, `canberra`, `chebyshev`, `cityblock`, `cosine`, `euclidean`, `minkowski`, `sqeuclidean`                      |
+| Approach                      | Comparison Methods                                                                                                         |
+|-------------------------------|----------------------------------------------------------------------------------------------------------------------------|
+| direct comparison             | `baseline`                                                                                                                 |
+| rank list comparison          | `mueller2010`, `mueller2013`, `schroff`, `kendall`, `scipy_kendall`, `weighted_kendall`, `spearman`, `wartmann_parametric` |
+| list normalization comparison | `braycurtis`, `canberra`, `chebyshev`, `cityblock`, `cosine`, `euclidean`, `minkowski`, `sqeuclidean`                      |
 
 * --record_output, -r\
 Include to record scores (default: `False`)
@@ -55,5 +55,5 @@ bin/bob bio roc -v -o <output-filename>.pdf -ts "<graph-title>" -lg <line-names>
 The following properties were observed:
 * The rank list comparison method `spearman` has the same results (both identification and verification) as the method `schroff`, however the latter proves to be faster in execution.
 * The implemented rank list comparison method `kendall` proves to be faster in execution than the method provided by `scipy.stats.kendalltau` namely `scipy_kendall` yielding the same results  (both identification and verification).
-* The mean-shifted comparison method `sqeuclidean` trivially has the same results (both identification and verification) as the method `euclidean`, however proves to be faster in execution.
-* If `p=2` is chosen for the mean-shifted comparison method `minkowski` the results (both identification and verification) are the same as `euclidean` and `sqeuclidean` by means of definition.
+* The list normalization comparison method `sqeuclidean` trivially has the same results (both identification and verification) as the method `euclidean`, however proves to be faster in execution.
+* If `p=2` is chosen for the list normalization comparison method `minkowski` the results (both identification and verification) are the same as `euclidean` and `sqeuclidean` by means of definition.

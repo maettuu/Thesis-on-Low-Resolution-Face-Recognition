@@ -21,8 +21,8 @@ class Colors:
 # define categories
 rank_list_comparison = ["mueller2010", "mueller2013", "schroff", "kendall", "scipy_kendall", "weighted_kendall",
                         "spearman", "wartmann_parametric"]
-mean_shifted_comparison = ["braycurtis", "canberra", "chebyshev", "cityblock", "cosine", "euclidean",
-                           "minkowski", "sqeuclidean"]
+list_normalization_comparison = ["braycurtis", "canberra", "chebyshev", "cityblock", "cosine", "euclidean",
+                                 "minkowski", "sqeuclidean"]
 
 
 ####################################################
@@ -42,7 +42,7 @@ def print_start(category, comparison_method, protocol):
 def get_category(comparison_method):
     if comparison_method in rank_list_comparison:
         return "rank-list-comparison"
-    elif comparison_method in mean_shifted_comparison:
-        return "mean-shifted-comparison"
+    elif comparison_method in list_normalization_comparison:
+        return "list-normalization-comparison"
     else:
         return ""

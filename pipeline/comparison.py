@@ -53,7 +53,7 @@ def baseline(probe_sample, reference_samples):
 
 ####################################################
 #                                                  #
-#                Rank List Approach                #
+#                 Rank List Method                 #
 #                                                  #
 ####################################################
 
@@ -146,7 +146,7 @@ def wartmann_parametric(probe_sample, reference_sample):
 
 ####################################################
 #                                                  #
-#               Mean Shifted Approach              #
+#             List Normalization Method            #
 #                                                  #
 ####################################################
 

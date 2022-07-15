@@ -10,7 +10,7 @@ import bob.extension
 import numpy as np
 import scipy.spatial
 import pathlib
-from helpers.colors_n_category import Colors
+from helpers.colors_n_categories import Colors
 
 
 ####################################################
@@ -33,7 +33,7 @@ bob.extension.rc["bob.bio.face.scface.directory"] = directory_path
 #                                                  #
 ####################################################
 
-# used for weighting mean shifted lists
+# used for weighting normalizing lists (standard score)
 reference_theta = 1
 probe_theta = 1
 
@@ -177,12 +177,12 @@ def generate_rank_list(probe_samples, reference_samples):
 
 
 # used to subtract mean from list of cosine distances
-def mean_shift(probe_samples, reference_samples):
+def normalize(probe_samples, reference_samples, theta):
     for probe_sample in probe_samples:
         cosine_distances = get_cosine_distances(probe_sample, reference_samples)
         # subtract mean from list and divide by defined scalar
         probe_sample.cosine_distances = np.divide(np.subtract(cosine_distances, np.mean(cosine_distances)),
-                                                  probe_theta)
+                                                  theta)
 
 
 ####################################################
@@ -217,8 +217,8 @@ def run_preprocessing(category, protocol):
             generate_rank_list(reference_samples, cohort_reference)
 
         # usage of lists w/o converting to rank -> subtract mean from lists
-        elif category == "mean-shifted-comparison":
-            mean_shift(probe_samples, cohort_probes_averaged)
-            mean_shift(reference_samples, cohort_reference)
+        elif category == "list-normalization-comparison":
+            normalize(probe_samples, cohort_probes_averaged, probe_theta)
+            normalize(reference_samples, cohort_reference, reference_theta)
 
     return probe_samples, reference_samples
