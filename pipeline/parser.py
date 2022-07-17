@@ -5,6 +5,7 @@
 ####################################################
 
 import argparse
+from helpers.categories import get_rank_list_comparison, get_standardization_comparison
 
 
 ####################################################
@@ -18,7 +19,11 @@ import argparse
 available_protocols = ["close", "medium", "far", "all"]
 available_methods = ["baseline", "mueller2010", "mueller2013", "schroff", "kendall", "scipy_kendall",
                      "weighted_kendall", "spearman", "wartmann_parametric", "braycurtis", "canberra", "chebyshev",
-                     "cityblock", "cosine", "euclidean", "minkowski", "sqeuclidean", "all"]
+                     "cityblock", "cosine", "euclidean", "minkowski", "sqeuclidean", "rank_list_comparison",
+                     "standardization_comparison", "all"]
+
+# used to filter non-existent methods
+categorical_arguments = ["rank_list_comparison", "standardization_comparison", "all"]
 
 
 def parse_input():
@@ -51,13 +56,26 @@ def parse_input():
     return args.comparison_method, args.protocol, args.record_output
 
 
+####################################################
+#                                                  #
+#                  Helper Methods                  #
+#                                                  #
+####################################################
+
+def filter_methods(methods, methods_to_filter):
+    return [method for method in methods if method not in methods_to_filter]
+
+
 # used to create list of chosen protocol and method
 def generate_lists(comparison_method, protocol):
-    if comparison_method == "all":
-        available_methods.remove("all")
-        comparison_methods = available_methods
-    else:
+    if comparison_method not in categorical_arguments:
         comparison_methods = [comparison_method]
+    else:
+        comparison_methods = filter_methods(available_methods, categorical_arguments)
+        if comparison_method == "rank_list_comparison":
+            comparison_methods = filter_methods(comparison_methods, get_standardization_comparison())
+        elif comparison_method == "standardization_comparison":
+            comparison_methods = filter_methods(comparison_methods, get_rank_list_comparison())
 
     if protocol == "all":
         available_protocols.remove("all")
