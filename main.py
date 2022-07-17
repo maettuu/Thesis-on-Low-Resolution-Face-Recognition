@@ -7,7 +7,8 @@
 from pipeline.parser import parse_input, generate_lists
 from pipeline.preprocessing import run_preprocessing
 from pipeline.comparison import run_comparison
-from helpers.colors_n_categories import get_category, print_start
+from helpers.colors import print_colorful_start
+from helpers.categories import get_category
 
 
 ####################################################
@@ -23,7 +24,7 @@ if __name__ == '__main__':
     for comparison_method in comparison_methods:
         category = get_category(comparison_method)
         for protocol in protocols:
-            print_start(category, comparison_method, protocol)
+            print_colorful_start(category, comparison_method, protocol)
             probe_samples, gallery_samples = run_preprocessing(category, protocol)
             run_comparison(probe_samples, gallery_samples, category, comparison_method, protocol, record_output)
             print("DONE!")
