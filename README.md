@@ -3,6 +3,12 @@ This repository serves as code base for my bachelor thesis on face recognition w
 
 ## Installation / Virtual Environment (Linux)
 1. First install [mambaforge](https://github.com/conda-forge/miniforge#mambaforge).
+2. Configure your conda installation by executing the following commands:
+```
+conda install -n base -c conda-forge mamba
+mamba update -n base -c conda-forge conda mamba
+conda config --set show_channel_urls True
+```
 3. Create a virtual environment using `mamba` as follows:
 ```
 mamba create --name bob_env --override-channels -c https://www.idiap.ch/software/bob/conda -c conda-forge python=3 bob.io.base bob.bio.face pytorch  
