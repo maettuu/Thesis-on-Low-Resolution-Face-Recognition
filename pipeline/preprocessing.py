@@ -44,23 +44,23 @@ probe_theta = 1
 #                                                  #
 ####################################################
 
-# used to extract probes, references and cohort from database
+# used to extract probes, gallery and cohort from database
 def extract_samples(protocol):
     # define database using chosen protocol
     database = bob.bio.face.database.SCFaceDatabase(protocol)
 
     # several samples pointing to same reference_id, but must be looked at separately
-    # extract probes, references and cohorts from database
+    # extract probes, gallery and cohorts from database
     probes = database.probes()
     # probes = database.probes(group="eval")
 
-    references = database.references()
-    # references = database.references(group="eval")
+    gallery = database.references()
+    # gallery = database.references(group="eval")
 
     cohort = database.background_model_samples()
     # cohort = database.references(group="dev") + database.probes(group="dev")
 
-    return probes, references, cohort
+    return probes, gallery, cohort
 
 
 # load features of single sample
@@ -103,25 +103,25 @@ def unwrap_sets(image_set, collected_samples):
             collected_samples.append(sample)
 
 
-# used to split cohort samples into cohort probes and cohort references
+# used to split cohort samples into cohort probes and cohort gallery
 def split_cohort(cohort_samples, protocol):
-    # instantiate lists for cohort probes and cohort references
+    # instantiate lists for cohort probes and cohort gallery
     cohort_probes = []
-    cohort_references = {}
+    cohort_gallery = {}
 
     for sample in cohort_samples:
         # extract the 'capture' attribute
         curr_capture = sample.capture
 
-        # check capture to distinguish between probes and references
+        # check capture to distinguish between probes and gallery
         if str(curr_capture) == 'surveillance':
             # check for the protocol used when defining the database
             if str(sample.distance) == protocol:
                 cohort_probes.append(sample)
         elif str(curr_capture) == 'mugshot':
-            cohort_references[sample.subject_id] = sample.features
+            cohort_gallery[sample.subject_id] = sample.features
 
-    return cohort_probes, cohort_references
+    return cohort_probes, cohort_gallery
 
 
 # used to take the average of all features from samples with the same subject_id
@@ -152,36 +152,36 @@ def calculate_average(samples):
     return averaged_features
 
 
-# used to calculate cosine distances between one probe and all references (used for cohort)
-def get_cosine_distances(probe_sample, reference_samples):
-    # instantiate list for calculated cosine distances between probe sample and all reference samples
+# used to calculate cosine distances between one probe/gallery and cohort
+def get_cosine_distances(sample, reference_samples):
+    # instantiate list for calculated cosine distances between sample and all cohort samples
     cosine_distances = []
 
     for key in sorted(reference_samples.keys()):
-        # calculate and save cosine distance between probe and current reference sample
+        # calculate and save cosine distance between sample and current cohort sample
         cosine_distances.append(
-            scipy.spatial.distance.cosine(probe_sample.features, reference_samples[key])
+            scipy.spatial.distance.cosine(sample.features, reference_samples[key])
         )
 
     return np.array(cosine_distances)
 
 
 # used to convert cosine distances into rank lists
-def generate_rank_list(probe_samples, reference_samples):
-    for probe_sample in probe_samples:
-        cosine_distances = get_cosine_distances(probe_sample, reference_samples)
+def generate_rank_list(samples, reference_samples):
+    for sample in samples:
+        cosine_distances = get_cosine_distances(sample, reference_samples)
         # use argsort to convert into array of orders
         order = np.argsort(cosine_distances)
         # use argsort again to convert into sorted array indices (rank list) and add it to probe sample
-        probe_sample.rank_list = np.argsort(order)
+        sample.rank_list = np.argsort(order)
 
 
-# used to subtract mean from list of cosine distances
-def normalize(probe_samples, reference_samples, theta):
-    for probe_sample in probe_samples:
-        cosine_distances = get_cosine_distances(probe_sample, reference_samples)
-        # subtract mean from list and divide by defined scalar
-        probe_sample.cosine_distances = np.divide(np.subtract(cosine_distances, np.mean(cosine_distances)),
+# used to standardize lists with cosine distances
+def standardize(samples, reference_samples, theta):
+    for sample in samples:
+        cosine_distances = get_cosine_distances(sample, reference_samples)
+        # subtract mean from list and divide by standard deviation
+        sample.standardized_distances = np.divide(np.subtract(cosine_distances, np.mean(cosine_distances)),
                                                   theta)
 
 
@@ -193,20 +193,20 @@ def normalize(probe_samples, reference_samples, theta):
 
 # used to set up comparison before execution (extraction and preprocessing)
 def run_preprocessing(category, protocol):
-    probes, references, cohort = extract_samples(protocol)
+    probes, gallery, cohort = extract_samples(protocol)
     probes = assign_features(probes)
-    references = assign_features(references)
+    gallery = assign_features(gallery)
 
     # unwrap samples
     probe_samples = []
-    reference_samples = []
+    gallery_samples = []
     unwrap_sets(probes, probe_samples)
-    unwrap_sets(references, reference_samples)
+    unwrap_sets(gallery, gallery_samples)
 
     # category is defined -> cohort must be used
     if category:
         cohort = assign_features(cohort, including_set=False)
-        cohort_probes, cohort_reference = split_cohort(cohort, protocol)
+        cohort_probes, cohort_gallery = split_cohort(cohort, protocol)
         # several samples in cohort_probes refer to the same subject,
         # therefore features must be averaged
         cohort_probes_averaged = calculate_average(cohort_probes)
@@ -214,11 +214,11 @@ def run_preprocessing(category, protocol):
         # usage of rank lists -> generate rank lists
         if category == "rank-list-comparison":
             generate_rank_list(probe_samples, cohort_probes_averaged)
-            generate_rank_list(reference_samples, cohort_reference)
+            generate_rank_list(gallery_samples, cohort_gallery)
 
-        # usage of lists w/o converting to rank -> subtract mean from lists
-        elif category == "list-normalization-comparison":
-            normalize(probe_samples, cohort_probes_averaged, probe_theta)
-            normalize(reference_samples, cohort_reference, reference_theta)
+        # usage of lists w/o converting to rank -> standardize lists
+        elif category == "standardization_comparison":
+            standardize(probe_samples, cohort_probes_averaged, probe_theta)
+            standardize(gallery_samples, cohort_gallery, reference_theta)
 
-    return probe_samples, reference_samples
+    return probe_samples, gallery_samples

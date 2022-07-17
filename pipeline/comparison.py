@@ -146,48 +146,48 @@ def wartmann_parametric(probe_sample, reference_sample):
 
 ####################################################
 #                                                  #
-#             List Normalization Method            #
+#              Standardization Method              #
 #                                                  #
 ####################################################
 
 # compute similarity of two lists with the help of braycurtis distance
 def braycurtis(probe_sample, reference_sample):
-    return -scipy.spatial.distance.braycurtis(probe_sample.cosine_distances, reference_sample.cosine_distances)
+    return -scipy.spatial.distance.braycurtis(probe_sample.standardized_distances, reference_sample.standardized_distances)
 
 
 # compute similarity of two lists with the help of canberra distance
 def canberra(probe_sample, reference_sample):
-    return -scipy.spatial.distance.canberra(probe_sample.cosine_distances, reference_sample.cosine_distances)
+    return -scipy.spatial.distance.canberra(probe_sample.standardized_distances, reference_sample.standardized_distances)
 
 
 # compute similarity of two lists with the help of chebyshev distance
 def chebyshev(probe_sample, reference_sample):
-    return -scipy.spatial.distance.chebyshev(probe_sample.cosine_distances, reference_sample.cosine_distances)
+    return -scipy.spatial.distance.chebyshev(probe_sample.standardized_distances, reference_sample.standardized_distances)
 
 
 # compute similarity of two lists with the help of cityblock distance
 def cityblock(probe_sample, reference_sample):
-    return -scipy.spatial.distance.cityblock(probe_sample.cosine_distances, reference_sample.cosine_distances)
+    return -scipy.spatial.distance.cityblock(probe_sample.standardized_distances, reference_sample.standardized_distances)
 
 
 # compute similarity of two lists with the help of cosine distance
 def cosine(probe_sample, reference_sample):
-    return -scipy.spatial.distance.cosine(probe_sample.cosine_distances, reference_sample.cosine_distances)
+    return -scipy.spatial.distance.cosine(probe_sample.standardized_distances, reference_sample.standardized_distances)
 
 
 # compute similarity of two lists with the help of euclidean distance
 def euclidean(probe_sample, reference_sample):
-    return -scipy.spatial.distance.euclidean(probe_sample.cosine_distances, reference_sample.cosine_distances)
+    return -scipy.spatial.distance.euclidean(probe_sample.standardized_distances, reference_sample.standardized_distances)
 
 
 # compute similarity of two lists with the help of minkowski distance
 def minkowski(probe_sample, reference_sample):
-    return -scipy.spatial.distance.minkowski(probe_sample.cosine_distances, reference_sample.cosine_distances, minkowski_p)
+    return -scipy.spatial.distance.minkowski(probe_sample.standardized_distances, reference_sample.standardized_distances, minkowski_p)
 
 
 # compute similarity of two lists with the help of sqeuclidean distance
 def sqeuclidean(probe_sample, reference_sample):
-    return -scipy.spatial.distance.sqeuclidean(probe_sample.cosine_distances, reference_sample.cosine_distances)
+    return -scipy.spatial.distance.sqeuclidean(probe_sample.standardized_distances, reference_sample.standardized_distances)
 
 
 ####################################################
@@ -196,32 +196,32 @@ def sqeuclidean(probe_sample, reference_sample):
 #                                                  #
 ####################################################
 
-# used to calculate similarity scores between one probe and all references
-def get_similarity_scores(probe_sample, reference_samples, category, comparison_function):
+# used to calculate similarity scores between one probe and all gallery samples
+def get_similarity_scores(probe_sample, gallery_samples, category, comparison_function):
     if not category:
-        return comparison_function(probe_sample, reference_samples)
+        return comparison_function(probe_sample, gallery_samples)
     else:
         # instantiate list for calculated similarity scores between
-        # probe sample rank list and all reference sample rank lists
+        # probe sample rank list and all gallery sample rank lists
         similarity_scores = []
 
-        for reference_sample in reference_samples:
-            similarity_score = comparison_function(probe_sample, reference_sample)
+        for gallery_sample in gallery_samples:
+            similarity_score = comparison_function(probe_sample, gallery_sample)
             # append the score to the list
             similarity_scores.append(similarity_score)
 
             data = [probe_sample.reference_id, probe_sample.subject_id,
-                    reference_sample.reference_id, reference_sample.subject_id,
+                    gallery_sample.reference_id, gallery_sample.subject_id,
                     similarity_score]
             save_scores(data)
 
         return np.array(similarity_scores)
 
 
-# used to see whether the correct reference sample is paired with the current probe sample
-def get_match_result(probe_sample, reference_sample):
+# used to see whether the correct gallery sample is paired with the current probe sample
+def get_match_result(probe_sample, gallery_sample):
     # return 1 for positive matches (if the subject_ids are the same)
-    if probe_sample.subject_id == reference_sample.subject_id:
+    if probe_sample.subject_id == gallery_sample.subject_id:
         return 1
 
     return 0
@@ -234,23 +234,23 @@ def get_match_result(probe_sample, reference_sample):
 ####################################################
 
 # used to run comparison with chosen method
-def run_comparison(probe_samples, reference_samples, category, comparison_method, protocol, record_output):
+def run_comparison(probe_samples, gallery_samples, category, comparison_method, protocol, record_output):
     # used to record output
     file_creation(comparison_method, protocol, record_output)
 
     # assign default function to variable for computation
     comparison_function = eval(comparison_method)
 
-    # used to keep track of positive matches (equal subject_id for probe and reference sample)
+    # used to keep track of positive matches (equal subject_id for probe and gallery sample)
     positive_matches = 0
 
     # used for measuring runtime
     start_time_cpu = time.process_time()
 
     for probe_sample in probe_samples:
-        result = get_similarity_scores(probe_sample, reference_samples, category, comparison_function)
+        result = get_similarity_scores(probe_sample, gallery_samples, category, comparison_function)
         max_score_index = np.argmax(result)
-        positive_matches += get_match_result(probe_sample, reference_samples[max_score_index])
+        positive_matches += get_match_result(probe_sample, gallery_samples[max_score_index])
 
     # stop runtime measurement
     stop_time_cpu = time.process_time()

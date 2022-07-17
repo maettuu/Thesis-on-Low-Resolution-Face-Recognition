@@ -24,8 +24,8 @@ if __name__ == '__main__':
         category = get_category(comparison_method)
         for protocol in protocols:
             print_start(category, comparison_method, protocol)
-            probe_samples, reference_samples = run_preprocessing(category, protocol)
-            run_comparison(probe_samples, reference_samples, category, comparison_method, protocol, record_output)
+            probe_samples, gallery_samples = run_preprocessing(category, protocol)
+            run_comparison(probe_samples, gallery_samples, category, comparison_method, protocol, record_output)
             print("DONE!")
 
 
