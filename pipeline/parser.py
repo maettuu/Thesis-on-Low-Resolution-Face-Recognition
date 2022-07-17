@@ -62,6 +62,7 @@ def parse_input():
 #                                                  #
 ####################################################
 
+# used to filter methods
 def filter_methods(methods, methods_to_filter):
     return [method for method in methods if method not in methods_to_filter]
 
@@ -71,9 +72,12 @@ def generate_lists(comparison_method, protocol):
     if comparison_method not in categorical_arguments:
         comparison_methods = [comparison_method]
     else:
+        # filter out categories and "all"
         comparison_methods = filter_methods(available_methods, categorical_arguments)
+        # filter out all standardization methods
         if comparison_method == "rank_list_comparison":
             comparison_methods = filter_methods(comparison_methods, get_standardization_comparison())
+        # filter out all rank list methods
         elif comparison_method == "standardization_comparison":
             comparison_methods = filter_methods(comparison_methods, get_rank_list_comparison())
 
