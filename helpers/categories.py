@@ -5,8 +5,8 @@
 ####################################################
 
 # define categories
-rank_list_comparison = ["mueller2010", "mueller2013", "schroff", "kendall", "scipy_kendall", "weighted_kendall",
-                        "spearman", "wartmann"]
+rank_list_comparison = ["mueller2010", "mueller2013", "schroff", "wartmann", "kendall", "scipy_kendall",
+                        "weighted_kendall", "spearman"]
 standardization_comparison = ["braycurtis", "canberra", "chebyshev", "cityblock", "cosine", "euclidean",
                               "minkowski", "sqeuclidean"]
 
