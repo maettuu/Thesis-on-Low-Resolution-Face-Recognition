@@ -6,7 +6,7 @@
 
 # define categories
 rank_list_comparison = ["mueller2010", "mueller2013", "schroff", "kendall", "scipy_kendall", "weighted_kendall",
-                        "spearman", "wartmann_parametric"]
+                        "spearman", "wartmann"]
 standardization_comparison = ["braycurtis", "canberra", "chebyshev", "cityblock", "cosine", "euclidean",
                               "minkowski", "sqeuclidean"]
 

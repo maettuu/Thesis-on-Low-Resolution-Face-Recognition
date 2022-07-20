@@ -131,7 +131,7 @@ def spearman(probe_sample, gallery_sample):
 
 
 # compute similarity of two rank lists with the help of wartmann's parametric formula
-def wartmann_parametric(probe_sample, gallery_sample):
+def wartmann(probe_sample, gallery_sample):
     number_of_ranks = len(probe_sample.rank_list)
     # initialize score
     similarity_score = 0
