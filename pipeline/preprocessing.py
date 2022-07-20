@@ -45,7 +45,7 @@ probe_theta = 1
 ####################################################
 
 # used to extract probes, gallery and cohort from database
-def extract_samples(protocol):
+def extract_samples(protocol, enable_bigger_cohort):
     # define database using chosen protocol
     database = bob.bio.face.database.SCFaceDatabase(protocol)
 
@@ -58,7 +58,9 @@ def extract_samples(protocol):
     # gallery = database.references(group="eval")
 
     cohort = database.background_model_samples()
-    # cohort = database.references(group="dev") + database.probes(group="dev")
+
+    if enable_bigger_cohort:
+        cohort = cohort + database.references(group="eval") + database.probes(group="eval")
 
     return probes, gallery, cohort
 
@@ -192,8 +194,8 @@ def standardize(samples, reference_samples, theta):
 ####################################################
 
 # used to set up comparison before execution (extraction and preprocessing)
-def run_preprocessing(category, protocol):
-    probes, gallery, cohort = extract_samples(protocol)
+def run_preprocessing(category, protocol, enable_bigger_cohort):
+    probes, gallery, cohort = extract_samples(protocol, enable_bigger_cohort)
     probes = assign_features(probes)
     gallery = assign_features(gallery)
 

@@ -18,14 +18,14 @@ from helpers.categories import get_category
 ####################################################
 
 if __name__ == '__main__':
-    comparison_methods, protocols, record_output = parse_input()
+    comparison_methods, protocols, enable_bigger_cohort, record_output = parse_input()
     comparison_methods, protocols = generate_lists(comparison_methods, protocols)
 
     for comparison_method in comparison_methods:
         category = get_category(comparison_method)
         for protocol in protocols:
             print_colorful_start(category, comparison_method, protocol)
-            probe_samples, gallery_samples = run_preprocessing(category, protocol)
+            probe_samples, gallery_samples = run_preprocessing(category, protocol, enable_bigger_cohort)
             run_comparison(probe_samples, gallery_samples, category, comparison_method, protocol, record_output)
             print("DONE!")
 
