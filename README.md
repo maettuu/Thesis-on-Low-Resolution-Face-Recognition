@@ -49,6 +49,8 @@ Specify a comparison method (default: `all`)
 
 * --record_output, -r\
 Include to record scores such as recognition rates, runtime and score files (default: `False`)
+* --enable_bigger_cohort, -bc\
+Include to extend the cohort with 43 samples (default: `False`)
 
 ## Evaluation of Results
 If the recording of scores is enabled, an output folder is created in which there are `.csv` files for every comparison method and protocol used for verification as well as a `.txt` file containing the recognition rates and averaged runtimes used for identification.\
