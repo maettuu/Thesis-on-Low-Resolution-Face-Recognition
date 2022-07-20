@@ -44,6 +44,11 @@ def parse_input():
                         choices=available_protocols,
                         help="Select the protocol used for the comparison"
                         )
+    parser.add_argument("--enable_bigger_cohort", "-bc",
+                        action='store_true',
+                        help="Include to use bigger cohort"
+                        )
+    parser.set_defaults(enable_bigger_cohort=False)
     parser.add_argument("--record_output", "-r",
                         action='store_true',
                         help="Include to record scores"
@@ -53,7 +58,7 @@ def parse_input():
     # extract arguments from parser
     args = parser.parse_args()
 
-    return args.comparison_method, args.protocol, args.record_output
+    return args.comparison_method, args.protocol, args.enable_bigger_cohort, args.record_output
 
 
 ####################################################
