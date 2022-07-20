@@ -34,6 +34,11 @@ bin/bob bio pipelines vanilla-biometrics scface-<protocol> ./helpers/simple_pipe
 ```
 This runs the pipeline and saves all checkpoint data in a folder called `samples_pipe_all`. The extracted features used for this project can be found in the subdirectory called `samplewrapper-2`. To read the files simply use the terminal with the command `h5dump -y <filename>.h5`
 
+## Branches
+The following two branches are included in this repository:
+* `main`: This branch includes all necesary parts to successfully run various comparison methods and should be used as `default`.
+* `distance_computations_without_standardization`: This branch includes the method that omits the standardization and applies the distance computations directly. It is used to show the inaccurate approach without standardization.
+
 ## Running the Code
 Use the terminal for starting the script with the command `bin/python main.py`. The following options are available:
 * --protocol, -p\
