@@ -11,6 +11,7 @@ import numpy as np
 import scipy.spatial
 import pathlib
 from helpers.colors import Colors
+from pipeline.comparison import set_schroff_k
 
 
 ####################################################
@@ -212,6 +213,7 @@ def run_preprocessing(category, protocol, enable_bigger_cohort):
         # several samples in cohort_probes refer to the same subject,
         # therefore features must be averaged
         cohort_probes_averaged = calculate_average(cohort_probes)
+        set_schroff_k(len(cohort_probes_averaged))
 
         # usage of rank lists -> generate rank lists
         if category == "rank-list-comparison":

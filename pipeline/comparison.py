@@ -27,6 +27,12 @@ wartmann_beta = 5
 minkowski_p = 2
 
 
+# setter for schroff_k
+def set_schroff_k(value):
+    global schroff_k
+    schroff_k = value
+
+
 ####################################################
 #                                                  #
 #                Comparison Methods                #
