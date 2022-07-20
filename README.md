@@ -46,11 +46,11 @@ Choose between `close`, `medium` or `far` protocol used for the comparison (defa
 * --comparison_method, -c\
 Specify a comparison method (default: `all`)
 
-| Approach                                                                         | Comparison Methods                                                                                                         |
-|----------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
-| direct comparison                                                                | `baseline`                                                                                                                 |
-| rank list comparison (use `rank_list_comparison` to run all methods)             | `mueller2010`, `mueller2013`, `schroff`, `kendall`, `scipy_kendall`, `weighted_kendall`, `spearman`, `wartmann_parametric` |
-| standardization comparison (use `standardization_comparison` to run all methods) | `braycurtis`, `canberra`, `chebyshev`, `cityblock`, `cosine`, `euclidean`, `minkowski`, `sqeuclidean`                      |
+| Approach                                                                         | Comparison Methods                                                                                              |
+|----------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
+| direct comparison                                                                | `baseline`                                                                                                      |
+| rank list comparison (use `rank_list_comparison` to run all methods)             | `mueller2010`, `mueller2013`, `schroff`, `wartmann`, `kendall`, `scipy_kendall`, `weighted_kendall`, `spearman` |
+| standardization comparison (use `standardization_comparison` to run all methods) | `braycurtis`, `canberra`, `chebyshev`, `cityblock`, `cosine`, `euclidean`, `minkowski`, `sqeuclidean`           |
 
 * --record_output, -r\
 Include to record scores such as recognition rates, runtime and score files (default: `False`)
