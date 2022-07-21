@@ -67,4 +67,4 @@ The following properties were observed:
 * The implemented rank list comparison method `kendall` proves to be faster in execution than the method provided by `scipy.stats.kendalltau` namely `scipy_kendall` yielding the same results  (both identification and verification).
 * The standardization comparison method `sqeuclidean` trivially has the same results (both identification and verification) as the method `euclidean`, however proves to be faster in execution.
 * If `p=2` is chosen for the standardization comparison method `minkowski` the results (both identification and verification) are the same as `euclidean` and `sqeuclidean` by means of definition, however the method is faster than `euclidean`.
-* The standardization comparison method `cosine` has the same results (only for verification) as the method `sqeuclidean`, however proves to be slower in execution.
+* The standardization comparison method `cosine` has the same results (both identification and verification) as the method `sqeuclidean` for `standardize` preprocessing, however proves to be slower in execution.
