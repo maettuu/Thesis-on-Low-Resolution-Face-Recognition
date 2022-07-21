@@ -30,17 +30,6 @@ bob.extension.rc["bob.bio.face.scface.directory"] = directory_path
 
 ####################################################
 #                                                  #
-#                 Global Variables                 #
-#                                                  #
-####################################################
-
-# used for weighting normalizing lists (standard score)
-reference_theta = 1
-probe_theta = 1
-
-
-####################################################
-#                                                  #
 #                  Helper Methods                  #
 #                                                  #
 ####################################################
@@ -180,12 +169,12 @@ def generate_rank_list(samples, reference_samples):
 
 
 # used to standardize lists with cosine distances
-def standardize(samples, reference_samples, theta):
+def standardize(samples, reference_samples):
     for sample in samples:
         cosine_distances = get_cosine_distances(sample, reference_samples)
         # subtract mean from list and divide by standard deviation
         sample.standardized_distances = np.divide(np.subtract(cosine_distances, np.mean(cosine_distances)),
-                                                  theta)
+                                                  np.std(cosine_distances))
 
 
 ####################################################
@@ -222,7 +211,7 @@ def run_preprocessing(category, protocol, enable_bigger_cohort):
 
         # usage of lists w/o converting to rank -> standardize lists
         elif category == "standardization_comparison":
-            standardize(probe_samples, cohort_probes_averaged, probe_theta)
-            standardize(gallery_samples, cohort_gallery, reference_theta)
+            standardize(probe_samples, cohort_probes_averaged)
+            standardize(gallery_samples, cohort_gallery)
 
     return probe_samples, gallery_samples
