@@ -1,0 +1,9 @@
+comparison_method    close_recog_rate     medium_recog_rate    far_recog_rate       runtime
+braycurtis           79.55 %              40.91 %              6.36 %               95.8240 ms
+canberra             79.55 %              41.82 %              6.82 %               234.0538 ms
+chebyshev            55.00 %              20.45 %              6.82 %               118.7138 ms
+cityblock            78.18 %              40.00 %              6.36 %               76.9025 ms
+cosine               94.55 %              70.91 %              26.36 %              279.8588 ms
+euclidean            83.18 %              46.36 %              13.64 %              100.9787 ms
+sqeuclidean          83.18 %              46.36 %              13.64 %              85.6064 ms
+minkowski            83.18 %              46.36 %              13.64 %              98.7461 ms

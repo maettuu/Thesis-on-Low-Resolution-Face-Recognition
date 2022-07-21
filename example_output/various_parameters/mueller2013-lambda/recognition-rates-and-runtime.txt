@@ -1,0 +1,4 @@
+comparison_method    close_recog_rate     medium_recog_rate    far_recog_rate       runtime
+mueller2013-0.90     70.00 %              38.64 %              17.73 %              874.6136 ms
+mueller2013-0.95     76.36 %              43.64 %              15.91 %              895.4811 ms
+mueller2013-0.99     81.82 %              50.00 %              14.09 %              935.7692 ms

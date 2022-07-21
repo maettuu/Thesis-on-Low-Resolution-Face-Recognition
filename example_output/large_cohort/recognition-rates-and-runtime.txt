@@ -1,0 +1,10 @@
+comparison_method    close_recog_rate     medium_recog_rate    far_recog_rate       runtime
+baseline             100.00 %             98.18 %              74.09 %              412.9261 ms
+mueller2010          72.73 %              46.36 %              17.27 %              383.8626 ms
+mueller2013          97.27 %              73.64 %              27.27 %              1901.6542 ms
+schroff              97.27 %              71.36 %              27.27 %              844.6149 ms
+wartmann             96.36 %              69.09 %              27.27 %              3910.5453 ms
+kendall              96.82 %              72.27 %              26.82 %              5355.3180 ms
+scipy_kendall        96.82 %              72.27 %              26.82 %              3095.6014 ms
+weighted_kendall     84.55 %              48.18 %              18.18 %              2252.5254 ms
+spearman             97.27 %              71.36 %              27.27 %              3224.5853 ms
