@@ -7,7 +7,6 @@
 import argparse
 from helpers.categories import get_rank_list_comparison, get_standardization_comparison
 
-
 ####################################################
 #                                                  #
 #               Parser Definition                  #
@@ -21,6 +20,7 @@ available_methods = ["baseline", "mueller2010", "mueller2013", "schroff", "wartm
                      "weighted_kendall", "spearman", "braycurtis", "canberra", "chebyshev", "cityblock", "cosine",
                      "euclidean", "minkowski", "sqeuclidean", "rank_list_comparison",
                      "standardization_comparison", "all"]
+available_standardization = ["standardize", "subtract_mean", "omitted"]
 
 # used to filter non-existent methods
 categorical_arguments = ["rank_list_comparison", "standardization_comparison", "all"]
@@ -44,6 +44,11 @@ def parse_input():
                         choices=available_protocols,
                         help="Select the protocol used for the comparison"
                         )
+    parser.add_argument("--standardization_method", "-s",
+                        default="standardize",
+                        choices=available_standardization,
+                        help="Select the standardization method (if standardization_comparison is chosen)"
+                        )
     parser.add_argument("--enable_bigger_cohort", "-bc",
                         action='store_true',
                         help="Include to use bigger cohort"
@@ -58,7 +63,8 @@ def parse_input():
     # extract arguments from parser
     args = parser.parse_args()
 
-    return args.comparison_method, args.protocol, args.enable_bigger_cohort, args.record_output
+    return args.comparison_method, args.protocol, args.standardization_method, \
+           args.enable_bigger_cohort, args.record_output
 
 
 ####################################################

@@ -177,6 +177,22 @@ def standardize(samples, reference_samples):
                                                   np.std(cosine_distances))
 
 
+# used to subtract mean from lists with cosine distances
+def subtract_mean(samples, reference_samples):
+    for sample in samples:
+        cosine_distances = get_cosine_distances(sample, reference_samples)
+        # subtract mean from list
+        sample.standardized_distances = np.subtract(cosine_distances, np.mean(cosine_distances))
+
+
+# used to omit standardization
+def omitted(samples, reference_samples):
+    for sample in samples:
+        cosine_distances = get_cosine_distances(sample, reference_samples)
+        # directly assign without standardization
+        sample.standardized_distances = cosine_distances
+
+
 ####################################################
 #                                                  #
 #                    Algorithm                     #
@@ -184,7 +200,7 @@ def standardize(samples, reference_samples):
 ####################################################
 
 # used to set up comparison before execution (extraction and preprocessing)
-def run_preprocessing(category, protocol, enable_bigger_cohort):
+def run_preprocessing(category, protocol, standardization_method, enable_bigger_cohort):
     probes, gallery, cohort = extract_samples(protocol, enable_bigger_cohort)
     probes = assign_features(probes)
     gallery = assign_features(gallery)
@@ -211,7 +227,8 @@ def run_preprocessing(category, protocol, enable_bigger_cohort):
 
         # usage of lists w/o converting to rank -> standardize lists
         elif category == "standardization_comparison":
-            standardize(probe_samples, cohort_probes_averaged)
-            standardize(gallery_samples, cohort_gallery)
+            standardization_function = eval(standardization_method)
+            standardization_function(probe_samples, cohort_probes_averaged)
+            standardization_function(gallery_samples, cohort_gallery)
 
     return probe_samples, gallery_samples
