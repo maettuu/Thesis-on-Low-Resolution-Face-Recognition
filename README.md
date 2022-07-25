@@ -41,17 +41,17 @@ Choose between `close`, `medium` or `far` protocol used for the comparison (defa
 * --comparison_method, -c\
 Specify a comparison method (default: `all`)
 
-| Approach                                                                         | Comparison Methods                                                                                              |
-|----------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
-| direct comparison                                                                | `baseline`                                                                                                      |
-| rank list comparison (use `rank_list_comparison` to run all methods)             | `mueller2010`, `mueller2013`, `schroff`, `wartmann`, `kendall`, `scipy_kendall`, `weighted_kendall`, `spearman` |
-| standardization comparison (use `standardization_comparison` to run all methods) | `braycurtis`, `canberra`, `chebyshev`, `cityblock`, `cosine`, `euclidean`, `minkowski`, `sqeuclidean`           |
+| Approach                                                                         | Comparison Methods                                                                                    |
+|----------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
+| direct comparison                                                                | `baseline`                                                                                            |
+| rank list comparison (use `rank_list_comparison` to run all methods)             | `mueller2010`, `mueller2013`, `schroff`, `wartmann`, `kendall`, `weighted_kendall`, `spearman`        |
+| standardization comparison (use `standardization_comparison` to run all methods) | `braycurtis`, `canberra`, `chebyshev`, `cityblock`, `cosine`, `euclidean`, `minkowski`, `sqeuclidean` |
 
 * --standardization_method, -s\
 Select `standardize`, `subtract_mean` or `omitted` to define the preprocessing of the lists with cosine distances. This argument is only important whenever methods for a standardization comparison are chosen (default: `standardize`).
 * --record_output, -r\
 Include to record scores such as recognition rates, runtime and score files (default: `False`)
-* --enable_bigger_cohort, -bc\
+* --enable_larger_cohort, -lc\
 Include to extend the cohort with 43 samples (default: `False`)
 
 ## Evaluation of Results
@@ -64,7 +64,6 @@ bin/bob bio roc -v -o <output-filename>.pdf -ts "<graph-title>" -lg <line-names>
 ## Observations
 The following properties were observed:
 * The rank list comparison method `spearman` has the same results (both identification and verification) as the method `schroff`, however the latter proves to be faster in execution.
-* The implemented rank list comparison method `kendall` proves to be faster in execution than the method provided by `scipy.stats.kendalltau` namely `scipy_kendall` yielding the same results  (both identification and verification).
 * The standardization comparison method `sqeuclidean` trivially has the same results (both identification and verification) as the method `euclidean`, however proves to be faster in execution.
 * If `p=2` is chosen for the standardization comparison method `minkowski` the results (both identification and verification) are the same as `euclidean` and `sqeuclidean` by means of definition, however the method is faster than `euclidean`.
 * The standardization comparison method `cosine` has the same results (both identification and verification) as the method `sqeuclidean` for `standardize` preprocessing, however proves to be slower in execution.
