@@ -24,7 +24,7 @@ if __name__ == '__main__':
     for comparison_method in comparison_methods:
         category = get_category(comparison_method)
         for protocol in protocols:
-            print_colorful_start(category, comparison_method, protocol)
+            print_colorful_start(category, comparison_method, protocol, enable_larger_cohort)
             probe_samples, gallery_samples = run_preprocessing(
                 category, protocol, standardization_method, enable_larger_cohort
             )
