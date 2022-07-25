@@ -24,7 +24,7 @@ mueller2013_lambda = 0.99
 schroff_k = 43
 wartmann_alpha = 1
 wartmann_beta = 1
-minkowski_p = 2
+minkowski_p = 10
 
 
 # setter for schroff_k

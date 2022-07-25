@@ -1,0 +1,6 @@
+comparison_method    close_recog_rate     medium_recog_rate    far_recog_rate       runtime
+minkowski-1          97.27 %              68.64 %              25.45 %              132.5285 ms
+minkowski-2          97.73 %              74.55 %              27.73 %              105.7885 ms
+minkowski-3          94.09 %              72.73 %              28.18 %              227.7681 ms
+minkowski-5          90.91 %              57.27 %              23.64 %              219.0590 ms
+minkowski-10         78.18 %              42.27 %              18.18 %              226.5735 ms
