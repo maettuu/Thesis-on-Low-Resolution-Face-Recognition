@@ -16,10 +16,10 @@ from helpers.categories import get_rank_list_comparison, get_standardization_com
 # define choices for arguments
 # available_protocols = ["close", "medium", "far", "combined", "IR"]
 available_protocols = ["close", "medium", "far", "all"]
-available_methods = ["baseline", "mueller2010", "mueller2013", "schroff", "wartmann", "kendall", "scipy_kendall",
-                     "weighted_kendall", "spearman", "braycurtis", "canberra", "chebyshev", "cityblock", "cosine",
-                     "euclidean", "minkowski", "sqeuclidean", "rank_list_comparison",
-                     "standardization_comparison", "all"]
+available_methods = ["baseline", "mueller2010", "mueller2013", "schroff", "wartmann", "kendall", "weighted_kendall",
+                     "spearman", "braycurtis", "canberra", "chebyshev", "cityblock", "cosine", "euclidean",
+                     "minkowski", "sqeuclidean",
+                     "rank_list_comparison", "standardization_comparison", "all"]
 available_standardization = ["standardize", "subtract_mean", "omitted"]
 
 # used to filter non-existent methods
@@ -49,9 +49,9 @@ def parse_input():
                         choices=available_standardization,
                         help="Select the standardization method (if standardization_comparison is chosen)"
                         )
-    parser.add_argument("--enable_bigger_cohort", "-bc",
+    parser.add_argument("--enable_larger_cohort", "-lc",
                         action='store_true',
-                        help="Include to use bigger cohort"
+                        help="Include to use larger cohort of 86 samples"
                         )
     parser.set_defaults(enable_bigger_cohort=False)
     parser.add_argument("--record_output", "-r",
@@ -64,7 +64,7 @@ def parse_input():
     args = parser.parse_args()
 
     return args.comparison_method, args.protocol, args.standardization_method, \
-           args.enable_bigger_cohort, args.record_output
+           args.enable_larger_cohort, args.record_output
 
 
 ####################################################

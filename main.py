@@ -18,7 +18,7 @@ from helpers.categories import get_category
 ####################################################
 
 if __name__ == '__main__':
-    comparison_methods, protocols, standardization_method, enable_bigger_cohort, record_output = parse_input()
+    comparison_methods, protocols, standardization_method, enable_larger_cohort, record_output = parse_input()
     comparison_methods, protocols = generate_lists(comparison_methods, protocols)
 
     for comparison_method in comparison_methods:
@@ -26,7 +26,7 @@ if __name__ == '__main__':
         for protocol in protocols:
             print_colorful_start(category, comparison_method, protocol)
             probe_samples, gallery_samples = run_preprocessing(
-                category, protocol, standardization_method, enable_bigger_cohort
+                category, protocol, standardization_method, enable_larger_cohort
             )
             run_comparison(probe_samples, gallery_samples, category, comparison_method, protocol, record_output)
             print("DONE!")

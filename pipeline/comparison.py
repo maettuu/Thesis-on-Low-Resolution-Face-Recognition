@@ -96,29 +96,30 @@ def schroff(probe_sample, gallery_sample):
     return similarity_score
 
 
+# OWN KENDALL IMPLEMENTATION
 # compute similarity of two rank lists with the help of kendall's tau
-def kendall(probe_sample, gallery_sample):
-    number_of_ranks = len(probe_sample.rank_list)
-    probe_sample_rank_list = probe_sample.rank_list.tolist()
-    # initialize sigma and objective ranking
-    sigma = 0
-    objective_ranking = [*range(number_of_ranks)]
-    # calculate score for each rank and add it to sigma (last rank results in zero score hence is omitted)
-    for rank in range(number_of_ranks - 1):
-        # element in gallery rank list at same index as current rank in probe rank list
-        pivot = gallery_sample.rank_list[probe_sample_rank_list.index(rank)]
-        pivot_index = objective_ranking.index(pivot)
-        # subtract elements left of pivot from elements right of pivot in objective ranking for score
-        sigma += (len(objective_ranking) - 1) - (2 * pivot_index)
-        # remove pivot from objective ranking
-        objective_ranking.remove(pivot)
-
-    # calculate kendall's tau
-    return (2 * sigma) / (number_of_ranks * (number_of_ranks - 1))
+# def kendall(probe_sample, gallery_sample):
+#     number_of_ranks = len(probe_sample.rank_list)
+#     probe_sample_rank_list = probe_sample.rank_list.tolist()
+#     # initialize sigma and objective ranking
+#     sigma = 0
+#     objective_ranking = [*range(number_of_ranks)]
+#     # calculate score for each rank and add it to sigma (last rank results in zero score hence is omitted)
+#     for rank in range(number_of_ranks - 1):
+#         # element in gallery rank list at same index as current rank in probe rank list
+#         pivot = gallery_sample.rank_list[probe_sample_rank_list.index(rank)]
+#         pivot_index = objective_ranking.index(pivot)
+#         # subtract elements left of pivot from elements right of pivot in objective ranking for score
+#         sigma += (len(objective_ranking) - 1) - (2 * pivot_index)
+#         # remove pivot from objective ranking
+#         objective_ranking.remove(pivot)
+#
+#     # calculate kendall's tau
+#     return (2 * sigma) / (number_of_ranks * (number_of_ranks - 1))
 
 
 # compute similarity of two rank lists with the help of kendall's tau (scipy)
-def scipy_kendall(probe_sample, gallery_sample):
+def kendall(probe_sample, gallery_sample):
     tau, _ = scipy.stats.kendalltau(probe_sample.rank_list, gallery_sample.rank_list)
 
     return tau
@@ -203,25 +204,22 @@ def sqeuclidean(probe_sample, gallery_sample):
 ####################################################
 
 # used to calculate similarity scores between one probe and all gallery samples
-def get_similarity_scores(probe_sample, gallery_samples, category, comparison_function):
-    if not category:
-        return comparison_function(probe_sample, gallery_samples)
-    else:
-        # instantiate list for calculated similarity scores between
-        # probe sample rank list and all gallery sample rank lists
-        similarity_scores = []
+def get_similarity_scores(probe_sample, gallery_samples, comparison_function):
+    # instantiate list for calculated similarity scores between
+    # probe sample rank list and all gallery sample rank lists
+    similarity_scores = []
 
-        for gallery_sample in gallery_samples:
-            similarity_score = comparison_function(probe_sample, gallery_sample)
-            # append the score to the list
-            similarity_scores.append(similarity_score)
+    for gallery_sample in gallery_samples:
+        similarity_score = comparison_function(probe_sample, gallery_sample)
+        # append the score to the list
+        similarity_scores.append(similarity_score)
 
-            data = [probe_sample.reference_id, probe_sample.subject_id,
-                    gallery_sample.reference_id, gallery_sample.subject_id,
-                    similarity_score]
-            save_scores(data)
+        data = [probe_sample.reference_id, probe_sample.subject_id,
+                gallery_sample.reference_id, gallery_sample.subject_id,
+                similarity_score]
+        save_scores(data)
 
-        return np.array(similarity_scores)
+    return np.array(similarity_scores)
 
 
 # used to see whether the correct gallery sample is paired with the current probe sample
@@ -253,10 +251,16 @@ def run_comparison(probe_samples, gallery_samples, category, comparison_method, 
     # used for measuring runtime
     start_time_cpu = time.process_time()
 
-    for probe_sample in probe_samples:
-        result = get_similarity_scores(probe_sample, gallery_samples, category, comparison_function)
-        max_score_index = np.argmax(result)
-        positive_matches += get_match_result(probe_sample, gallery_samples[max_score_index])
+    if not category:  # run baseline -> direct comparison
+        for probe_sample in probe_samples:
+            result = baseline(probe_sample, gallery_samples)
+            max_score_index = np.argmax(result)
+            positive_matches += get_match_result(probe_sample, gallery_samples[max_score_index])
+    else:  # makes use of preprocessed rank/standardized lists
+        for probe_sample in probe_samples:
+            result = get_similarity_scores(probe_sample, gallery_samples, comparison_function)
+            max_score_index = np.argmax(result)
+            positive_matches += get_match_result(probe_sample, gallery_samples[max_score_index])
 
     # stop runtime measurement
     stop_time_cpu = time.process_time()
