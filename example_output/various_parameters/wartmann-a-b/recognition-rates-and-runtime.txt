@@ -1,7 +1,0 @@
-comparison_method    close_recog_rate     medium_recog_rate    far_recog_rate       runtime
-wartmann-1.5-5       81.82 %              47.73 %              16.36 %              2060.6131 ms
-wartmann-1-1         85.91 %              50.00 %              14.55 %              2074.1220 ms
-wartmann-1.5-12      73.18 %              37.27 %              18.18 %              2164.2483 ms
-wartmann-3-8         75.00 %              39.09 %              14.55 %              2148.9181 ms
-wartmann-5-3.5       67.27 %              35.45 %              13.64 %              2435.5129 ms
-wartmann-5-15        61.36 %              31.82 %              14.55 %              2189.7903 ms
