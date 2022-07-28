@@ -59,7 +59,7 @@ Specify a comparison method (default: `all`)
 * --standardization_method, -s\
 Select `standardize`, `subtract_mean` or `omitted` to define the preprocessing of the lists with cosine distances. This argument is only important whenever methods for a standardization comparison are chosen (default: `standardize`).
 * --record_output, -r\
-Include to record scores such as recognition rates, runtime and score files (default: `False`)
+Include to record scores such as recognition rates, score files, preprocessing time and runtime (default: `False`)
 * --enable_larger_cohort, -lc\
 Include to extend the cohort with 43 samples (default: `False`)
 
