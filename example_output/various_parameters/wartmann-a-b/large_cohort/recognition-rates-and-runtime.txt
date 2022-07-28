@@ -1,15 +1,15 @@
-comparison_method    close_recog_rate     medium_recog_rate    far_recog_rate       runtime
-wartmann-1-1         97.27 %              72.27 %              27.27 %              3995.8326 ms
-wartmann-1-5         96.82 %              71.82 %              27.27 %              3849.8557 ms
-wartmann-1-12        90.91 %              65.45 %              25.45 %              3768.3616 ms
+comparison_method    close_recog_rate     medium_recog_rate    far_recog_rate       runtime              preprocess_method    preprocess_time
+wartmann-1-1         97.27 %              72.27 %              27.27 %              3995.8326 ms         rank-list            931.6455 ms
+wartmann-1-5         96.82 %              71.82 %              27.27 %              3849.8557 ms         rank-list            931.6455 ms
+wartmann-1-12        90.91 %              65.45 %              25.45 %              3768.3616 ms         rank-list            931.6455 ms
 
-wartmann-1-1         97.27 %              72.27 %              27.27 %              3995.8326 ms
-wartmann-5-1         95.00 %              59.09 %              22.27 %              3792.2997 ms
-wartmann-12-1        73.18 %              42.73 %              15.45 %              3953.5886 ms
+wartmann-1-1         97.27 %              72.27 %              27.27 %              3995.8326 ms         rank-list            931.6455 ms
+wartmann-5-1         95.00 %              59.09 %              22.27 %              3792.2997 ms         rank-list            931.6455 ms
+wartmann-12-1        73.18 %              42.73 %              15.45 %              3953.5886 ms         rank-list            931.6455 ms
 
-wartmann-1-1         97.27 %              72.27 %              27.27 %              3995.8326 ms
-wartmann-1.5-1.5     96.82 %              71.82 %              25.91 %              3783.8650 ms
-wartmann-3-3         96.36 %              66.36 %              27.27 %              3875.9805 ms
-wartmann-1.5-3       96.36 %              72.73 %              26.82 %              3871.2357 ms
-wartmann-1.5-5       96.36 %              69.09 %              27.27 %              3641.1491 ms
-wartmann-1.5-11      91.36 %              66.36 %              26.36 %              3808.1997 ms
+wartmann-1-1         97.27 %              72.27 %              27.27 %              3995.8326 ms         rank-list            931.6455 ms
+wartmann-1.5-1.5     96.82 %              71.82 %              25.91 %              3783.8650 ms         rank-list            931.6455 ms
+wartmann-3-3         96.36 %              66.36 %              27.27 %              3875.9805 ms         rank-list            931.6455 ms
+wartmann-1.5-3       96.36 %              72.73 %              26.82 %              3871.2357 ms         rank-list            931.6455 ms
+wartmann-1.5-5       96.36 %              69.09 %              27.27 %              3641.1491 ms         rank-list            931.6455 ms
+wartmann-1.5-11      91.36 %              66.36 %              26.36 %              3808.1997 ms         rank-list            931.6455 ms

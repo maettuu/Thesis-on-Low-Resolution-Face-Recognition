@@ -1,10 +1,9 @@
-comparison_method    close_recog_rate     medium_recog_rate    far_recog_rate       runtime
-baseline             100.00 %             98.18 %              74.09 %              382.6218 ms
-mueller2010          48.64 %              25.45 %              15.91 %              205.2135 ms
-mueller2013          81.82 %              50.00 %              14.09 %              960.2458 ms
-schroff              83.64 %              50.45 %              12.73 %              373.5906 ms
-wartmann             81.82 %              47.73 %              16.36 %              1955.4483 ms
-kendall              81.82 %              48.64 %              14.55 %              1520.4057 ms
-scipy_kendall        81.82 %              48.64 %              14.55 %              2925.6192 ms
-weighted_kendall     68.64 %              32.73 %              9.09 %               1266.6300 ms
-spearman             83.64 %              50.45 %              12.73 %              3046.7149 ms
+comparison_method    close_recog_rate     medium_recog_rate    far_recog_rate       runtime              preprocess_method    preprocess_time
+baseline             100.00 %             98.18 %              74.09 %              382.6218 ms          baseline             0.0000 ms
+mueller2010          48.64 %              25.45 %              15.91 %              205.2135 ms          rank-list            487.6017 ms
+mueller2013          81.82 %              50.00 %              14.09 %              960.2458 ms          rank-list            561.9276 ms
+schroff              83.64 %              50.45 %              12.73 %              373.5906 ms          rank-list            529.5176 ms
+wartmann             81.82 %              47.73 %              16.36 %              1955.4483 ms         rank-list            516.8021 ms
+kendall              81.82 %              48.64 %              14.55 %              2925.6192 ms         rank-list            539.9861 ms
+weighted_kendall     68.64 %              32.73 %              9.09 %               1266.6300 ms         rank-list            495.2399 ms
+spearman             83.64 %              50.45 %              12.73 %              3046.7149 ms         rank-list            532.1168 ms
