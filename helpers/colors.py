@@ -21,11 +21,16 @@ class Colors:
 
 # used to output beginning of new comparison
 def print_colorful_start(category, comparison_method, protocol, enable_larger_cohort):
-    msg = f"Currently running {Colors.BOLD}{Colors.CRED}[" + category + "]" + comparison_method + \
-          f"{Colors.ENDC} with protocol {Colors.CCYAN}" + protocol + f"{Colors.ENDC} on "
-    if enable_larger_cohort:
-        msg = msg + f"{Colors.YELLOW}large{Colors.ENDC} cohort ..."
-        print(f'{Colors.BOLD}INFO: {Colors.ENDC}{msg:{145}}', end='', flush=True)
+    if category:
+        msg = f"Currently running {Colors.BOLD}{Colors.CRED}[" + category + "]" + comparison_method + \
+              f"{Colors.ENDC} with protocol {Colors.CCYAN}" + protocol + f"{Colors.ENDC} on "
+        if enable_larger_cohort:
+            msg = msg + f"{Colors.YELLOW}large{Colors.ENDC} cohort ..."
+            print(f'{Colors.BOLD}INFO: {Colors.ENDC}{msg:{145}}', end='', flush=True)
+        else:
+            msg = msg + f"{Colors.YELLOW}small{Colors.ENDC} cohort ..."
+            print(f'{Colors.BOLD}INFO: {Colors.ENDC}{msg:{145}}', end='', flush=True)
     else:
-        msg = msg + f"{Colors.YELLOW}small{Colors.ENDC} cohort ..."
+        msg = f"Currently running {Colors.BOLD}{Colors.CRED}" + comparison_method + \
+              f"{Colors.ENDC} with protocol {Colors.CCYAN}" + protocol + f"{Colors.ENDC} ..."
         print(f'{Colors.BOLD}INFO: {Colors.ENDC}{msg:{145}}', end='', flush=True)
