@@ -6,7 +6,6 @@
 
 import bob.bio.face
 import bob.io.base
-# import bob.extension
 import numpy as np
 import scipy.spatial
 import pathlib
@@ -23,9 +22,6 @@ from pipeline.comparison import set_schroff_k
 # used to combine with sample keys and load features
 file_path = str(pathlib.Path().resolve())
 directory_path = file_path + "/samples_pipe_all/samplewrapper-2/"
-
-# used to define original_directory
-# bob.extension.rc["bob.bio.face.scface.directory"] = directory_path
 
 
 ####################################################
