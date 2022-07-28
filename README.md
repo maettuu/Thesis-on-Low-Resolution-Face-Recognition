@@ -13,12 +13,21 @@ conda config --set show_channel_urls True
 ```
 mamba create --name bob_env --override-channels -c https://www.idiap.ch/software/bob/conda -c conda-forge python=3 bob.io.base bob.bio.face pytorch  
 ```
-3. Activate the environement by `conda activate bob_env` and configure its channels as follows:
+3. Activate the environment by `conda activate bob_env` and configure its channels as follows:
 ```
 conda config --env --add channels conda-forge
 conda config --env --add channels https://www.idiap.ch/software/bob/conda
 ```
 4. Install packages by using `mamba install <package-name>`.
+5. [Download](https://www.scface.org/) and save the SCface database.
+6. In the activated environment configure Bob with the path to the database directory as follows:
+```
+bob config set bob.bio.face.scface.directory <path>
+```
+7. You can check the configuration using:
+```
+bob config show
+```
 
 ## Pipeline Setup
 To successfully install the required packages for running the `simple_pipe.py` follow these steps:
