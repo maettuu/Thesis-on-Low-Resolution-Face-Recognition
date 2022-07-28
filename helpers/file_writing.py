@@ -14,26 +14,27 @@ import pathlib
 #                                                  #
 ####################################################
 
-# used to keep track of rates of same comparison method
 class RecognitionItem:
     def __init__(self, close_rate="", medium_rate="", far_rate="",
-                 close_runtime=None, medium_runtime=None, far_runtime=None):
+                 close_runtime=None, medium_runtime=None, far_runtime=None,
+                 preprocess_method="",
+                 preprocess_close_time=None, preprocess_medium_time=None, preprocess_far_time=None):
         self.close_rate = close_rate
         self.medium_rate = medium_rate
         self.far_rate = far_rate
         self.close_runtime = close_runtime
         self.medium_runtime = medium_runtime
         self.far_runtime = far_runtime
+        self.preprocess_method = preprocess_method
+        self.preprocess_close_time = preprocess_close_time
+        self.preprocess_medium_time = preprocess_medium_time
+        self.preprocess_far_time = preprocess_far_time
 
     def get_average_runtime(self):
-        if self.close_runtime and self.medium_runtime and self.far_runtime:
-            return (self.close_runtime + self.medium_runtime + self.far_runtime) / 3
-        elif self.close_runtime and self.medium_runtime:
-            return (self.close_runtime + self.medium_runtime) / 2
-        elif self.medium_runtime:
-            return self.medium_runtime
-        elif self.far_runtime:
-            return self.far_runtime
+        return get_average(self.close_runtime, self.medium_runtime, self.far_runtime)
+
+    def get_average_preprocess_time(self):
+        return get_average(self.preprocess_close_time, self.preprocess_medium_time, self.preprocess_far_time)
 
 
 ####################################################
@@ -46,6 +47,26 @@ scores_dev = None
 scores_writer = None
 recognition_file = None
 current_recognition = RecognitionItem()
+
+
+####################################################
+#                                                  #
+#                  Helper Methods                  #
+#                                                  #
+####################################################
+
+# used to keep track of rates of same comparison method
+def get_average(close_time, medium_time, far_time):
+    if close_time and medium_time and far_time:
+        return (close_time + medium_time + far_time) / 3
+    elif close_time and medium_time:
+        return (close_time + medium_time) / 2
+    elif medium_time:
+        return medium_time
+    elif far_time:
+        return far_time
+    else:
+        return 0
 
 
 ####################################################
@@ -83,7 +104,8 @@ def file_creation(comparison_method, protocol, record_output):
         # otherwise close and re-open to set cursor to end of file
         if not recognition_file.readlines():
             recognition_file.write(f'{"comparison_method":{20}} {"close_recog_rate":{20}} {"medium_recog_rate":{20}}'
-                                   f' {"far_recog_rate":{20}} {"runtime"}\n')
+                                   f' {"far_recog_rate":{20}} {"runtime":{20}} {"preprocess_method":{20}}'
+                                   f' {"preprocess_time"}\n')
         else:
             recognition_file.close()
             recognition_file = open("output/recognition-rates-and-runtime.txt", 'a')
@@ -107,7 +129,9 @@ def close(comparison_method, recognition_rate, runtime):
         current_recognition.close_rate = recognition_rate
         current_recognition.close_runtime = runtime
         runtime = to_string_runtime(runtime)
-        recognition_file.write(f'{comparison_method:{20}} {recognition_rate:{20}} {"":{20}} {"":{20}} {runtime}\n')
+        preprocess_time = to_string_runtime(current_recognition.preprocess_close_time)
+        recognition_file.write(f'{comparison_method:{20}} {recognition_rate:{20}} {"":{20}} {"":{20}} {runtime:{20}}'
+                               f' {current_recognition.preprocess_method:{20}} {preprocess_time}\n')
 
 
 # used to print recognition rate and runtime of medium protocol
@@ -117,8 +141,10 @@ def medium(comparison_method, recognition_rate, runtime):
         current_recognition.medium_rate = recognition_rate
         current_recognition.medium_runtime = runtime
         average_runtime = to_string_runtime(current_recognition.get_average_runtime())
-        recognition_file.write(f'{comparison_method:{20}} {current_recognition.close_rate:{20}} '
-                               f'{recognition_rate:{20}} {"":{20}} {average_runtime}\n')
+        average_preprocess_time = to_string_runtime(current_recognition.get_average_preprocess_time())
+        recognition_file.write(f'{comparison_method:{20}} {current_recognition.close_rate:{20}}'
+                               f' {recognition_rate:{20}} {"":{20}} {average_runtime:{20}}'
+                               f' {current_recognition.preprocess_method:{20}} {average_preprocess_time}\n')
 
 
 # used to print recognition rate and runtime of far protocol
@@ -128,8 +154,10 @@ def far(comparison_method, recognition_rate, runtime):
         current_recognition.far_rate = recognition_rate
         current_recognition.far_runtime = runtime
         average_runtime = to_string_runtime(current_recognition.get_average_runtime())
-        recognition_file.write(f'{comparison_method:{20}} {current_recognition.close_rate:{20}} '
-                               f'{current_recognition.medium_rate:{20}} {recognition_rate:{20}} {average_runtime}\n')
+        average_preprocess_time = to_string_runtime(current_recognition.get_average_preprocess_time())
+        recognition_file.write(f'{comparison_method:{20}} {current_recognition.close_rate:{20}}'
+                               f' {current_recognition.medium_rate:{20}} {recognition_rate:{20}} {average_runtime:{20}}'
+                               f' {current_recognition.preprocess_method:{20}} {average_preprocess_time}\n')
         current_recognition = RecognitionItem()
 
 
@@ -137,6 +165,18 @@ def far(comparison_method, recognition_rate, runtime):
 def save_results(comparison_method, protocol, recognition_rate, runtime):
     format_type = eval(protocol)
     format_type(comparison_method, recognition_rate, runtime)
+
+
+# used to save preprocessing information
+def set_preprocess_time(preprocess_method, protocol, preprocess_time):
+    global current_recognition
+    current_recognition.preprocess_method = preprocess_method
+    if protocol == "close":
+        current_recognition.preprocess_close_time = preprocess_time
+    elif protocol == "medium":
+        current_recognition.preprocess_medium_time = preprocess_time
+    elif protocol == "far":
+        current_recognition.preprocess_far_time = preprocess_time
 
 
 # used to close all files

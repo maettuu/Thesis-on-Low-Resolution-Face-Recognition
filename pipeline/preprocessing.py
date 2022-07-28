@@ -9,7 +9,9 @@ import bob.io.base
 import numpy as np
 import scipy.spatial
 import pathlib
+import time
 from helpers.colors import Colors
+from helpers.file_writing import set_preprocess_time
 from pipeline.comparison import set_schroff_k
 
 
@@ -160,7 +162,7 @@ def generate_rank_list(samples, reference_samples):
         cosine_distances = get_cosine_distances(sample, reference_samples)
         # use argsort to convert into array of orders
         order = np.argsort(cosine_distances)
-        # use argsort again to convert into sorted array indices (rank list) and add it to probe sample
+        # use argsort again to convert into rank list and add it to sample
         sample.rank_list = np.argsort(order)
 
 
@@ -209,22 +211,39 @@ def run_preprocessing(category, protocol, standardization_method, enable_larger_
 
     # category is defined -> cohort must be used
     if category:
+        # used for measuring preprocessing time
+        start_time_cpu = time.process_time()
+
         cohort = assign_features(cohort, including_set=False)
         cohort_probes, cohort_gallery = split_cohort(cohort, protocol)
         # several samples in cohort_probes refer to the same subject,
         # therefore features must be averaged
         cohort_probes_averaged = calculate_average(cohort_probes)
-        set_schroff_k(len(cohort_probes_averaged))
 
         # usage of rank lists -> generate rank lists
         if category == "rank-list-comparison":
             generate_rank_list(probe_samples, cohort_probes_averaged)
             generate_rank_list(gallery_samples, cohort_gallery)
 
+            # stop and save time measurement
+            stop_time_cpu = time.process_time()
+            preprocess_time = stop_time_cpu - start_time_cpu
+            set_preprocess_time("rank-list", protocol, preprocess_time)
+
+            # optimize schroff parameter
+            set_schroff_k(len(cohort_probes_averaged))
+
         # usage of lists w/o converting to rank -> standardize lists
         elif category == "standardization_comparison":
             standardization_function = eval(standardization_method)
             standardization_function(probe_samples, cohort_probes_averaged)
             standardization_function(gallery_samples, cohort_gallery)
+
+            # stop and save time measurement
+            stop_time_cpu = time.process_time()
+            preprocess_time = stop_time_cpu - start_time_cpu
+            set_preprocess_time(standardization_method, protocol, preprocess_time)
+    else:
+        set_preprocess_time("baseline", protocol, 0)
 
     return probe_samples, gallery_samples
