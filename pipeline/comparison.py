@@ -52,6 +52,7 @@ def baseline(probe_sample, gallery_samples):
         data = [probe_sample.reference_id, probe_sample.subject_id,
                 gallery_sample.reference_id, gallery_sample.subject_id,
                 -cosine_distance]
+        # save to external spreadsheet to determine VP
         save_scores(data)
 
     return -np.array(cosine_distances)
@@ -167,11 +168,6 @@ def canberra(probe_sample, gallery_sample):
     return -scipy.spatial.distance.canberra(probe_sample.standardized_distances, gallery_sample.standardized_distances)
 
 
-# compute similarity of two lists with the help of chebyshev distance
-def chebyshev(probe_sample, gallery_sample):
-    return -scipy.spatial.distance.chebyshev(probe_sample.standardized_distances, gallery_sample.standardized_distances)
-
-
 # compute similarity of two lists with the help of cityblock distance
 def cityblock(probe_sample, gallery_sample):
     return -scipy.spatial.distance.cityblock(probe_sample.standardized_distances, gallery_sample.standardized_distances)
@@ -180,11 +176,6 @@ def cityblock(probe_sample, gallery_sample):
 # compute similarity of two lists with the help of cosine distance
 def cosine(probe_sample, gallery_sample):
     return -scipy.spatial.distance.cosine(probe_sample.standardized_distances, gallery_sample.standardized_distances)
-
-
-# compute similarity of two lists with the help of euclidean distance
-def euclidean(probe_sample, gallery_sample):
-    return -scipy.spatial.distance.euclidean(probe_sample.standardized_distances, gallery_sample.standardized_distances)
 
 
 # compute similarity of two lists with the help of minkowski distance
@@ -217,6 +208,7 @@ def get_similarity_scores(probe_sample, gallery_samples, comparison_function):
         data = [probe_sample.reference_id, probe_sample.subject_id,
                 gallery_sample.reference_id, gallery_sample.subject_id,
                 similarity_score]
+        # save to external spreadsheet to determine VP
         save_scores(data)
 
     return np.array(similarity_scores)
@@ -254,11 +246,13 @@ def run_comparison(probe_samples, gallery_samples, category, comparison_method, 
     if not category:  # run baseline -> direct comparison
         for probe_sample in probe_samples:
             result = baseline(probe_sample, gallery_samples)
+            # find maximum score and compare IDs for IP
             max_score_index = np.argmax(result)
             positive_matches += get_match_result(probe_sample, gallery_samples[max_score_index])
     else:  # makes use of preprocessed rank/standardized lists
         for probe_sample in probe_samples:
             result = get_similarity_scores(probe_sample, gallery_samples, comparison_function)
+            # find maximum score and compare IDs for IP
             max_score_index = np.argmax(result)
             positive_matches += get_match_result(probe_sample, gallery_samples[max_score_index])
 
