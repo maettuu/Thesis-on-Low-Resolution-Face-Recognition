@@ -128,8 +128,8 @@ def close(comparison_method, recognition_rate, runtime):
         global current_recognition
         current_recognition.close_rate = recognition_rate
         current_recognition.close_runtime = runtime
-        runtime = to_string_runtime(runtime)
         preprocess_time = to_string_runtime(current_recognition.preprocess_close_time)
+        runtime = to_string_runtime(runtime) + preprocess_time
         recognition_file.write(f'{comparison_method:{20}} {recognition_rate:{20}} {"":{20}} {"":{20}} {runtime:{20}}'
                                f' {current_recognition.preprocess_method:{20}} {preprocess_time}\n')
 
@@ -140,8 +140,8 @@ def medium(comparison_method, recognition_rate, runtime):
         global current_recognition
         current_recognition.medium_rate = recognition_rate
         current_recognition.medium_runtime = runtime
-        average_runtime = to_string_runtime(current_recognition.get_average_runtime())
         average_preprocess_time = to_string_runtime(current_recognition.get_average_preprocess_time())
+        average_runtime = to_string_runtime(current_recognition.get_average_runtime()) + average_preprocess_time
         recognition_file.write(f'{comparison_method:{20}} {current_recognition.close_rate:{20}}'
                                f' {recognition_rate:{20}} {"":{20}} {average_runtime:{20}}'
                                f' {current_recognition.preprocess_method:{20}} {average_preprocess_time}\n')
@@ -153,8 +153,8 @@ def far(comparison_method, recognition_rate, runtime):
         global current_recognition
         current_recognition.far_rate = recognition_rate
         current_recognition.far_runtime = runtime
-        average_runtime = to_string_runtime(current_recognition.get_average_runtime())
         average_preprocess_time = to_string_runtime(current_recognition.get_average_preprocess_time())
+        average_runtime = to_string_runtime(current_recognition.get_average_runtime()) + average_preprocess_time
         recognition_file.write(f'{comparison_method:{20}} {current_recognition.close_rate:{20}}'
                                f' {current_recognition.medium_rate:{20}} {recognition_rate:{20}} {average_runtime:{20}}'
                                f' {current_recognition.preprocess_method:{20}} {average_preprocess_time}\n')
