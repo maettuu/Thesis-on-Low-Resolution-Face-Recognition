@@ -53,7 +53,7 @@ Specify a comparison method (default: `all`)
 | Approach                                                                         | Comparison Methods                                                                             |
 |----------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
 | direct comparison                                                                | `baseline`                                                                                     |
-| rank list comparison (use `rank_list_comparison` to run all methods)             | `mueller2010`, `mueller2013`, `schroff`, `wartmann`, `spearman`, `kendall`, `weighted_kendall` |
+| rank list comparison (use `rank_list_comparison` to run all methods)             | `mueller2010`, `schroff`, `mueller2013`, `wartmann`, `spearman`, `kendall`, `weighted_kendall` |
 | standardization comparison (use `standardization_comparison` to run all methods) | `cosine`, `braycurtis`, `canberra`, `cityblock`, `sqeuclidean`, `minkowski`                    |
 
 * --standardization_method, -s\
