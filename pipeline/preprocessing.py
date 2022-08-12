@@ -34,17 +34,10 @@ directory_path = file_path + "/samples_pipe_all/samplewrapper-2/"
 
 # used to extract probes, gallery and cohort from database
 def extract_samples(protocol, enable_larger_cohort):
-    # define database using chosen protocol
+    # define database using chosen protocol and extract samples
     database = bob.bio.face.database.SCFaceDatabase(protocol)
-
-    # several samples pointing to same reference_id, but must be looked at separately
-    # extract probes, gallery and cohorts from database
     probes = database.probes()
-    # probes = database.probes(group="eval")
-
     gallery = database.references()
-    # gallery = database.references(group="eval")
-
     cohort = database.background_model_samples()
 
     if enable_larger_cohort:
@@ -95,45 +88,38 @@ def unwrap_sets(image_set, collected_samples):
 
 # used to split cohort samples into cohort probes and cohort gallery
 def split_cohort(cohort_samples, protocol):
-    # instantiate lists for cohort probes and cohort gallery
-    cohort_probes = []
+    # instantiate dictionaries for probe and gallery cohort samples
+    cohort_probes = {}
     cohort_gallery = {}
 
     for sample in cohort_samples:
-        # extract the 'capture' attribute
+        # extract the ’capture’ attribute
         curr_capture = sample.capture
 
-        # check capture to distinguish between probes and gallery
-        if str(curr_capture) == 'surveillance':
+        # check capture to distinguish between probe and gallery cohort
+        if str(curr_capture) == "surveillance":
             # check for the protocol used when defining the database
             if str(sample.distance) == protocol:
-                cohort_probes.append(sample)
-        elif str(curr_capture) == 'mugshot':
+                curr_subject_id = sample.subject_id
+                # add an entry if subject_id is not yet in the dictionary
+                if curr_subject_id not in cohort_probes:
+                    cohort_probes[curr_subject_id] = [sample.features]
+                # else extract already recorded features and add current ones
+                else:
+                    cohort_probes.get(curr_subject_id).append(sample.features)
+        elif str(curr_capture) == "mugshot":
             cohort_gallery[sample.subject_id] = sample.features
 
     return cohort_probes, cohort_gallery
 
 
 # used to take the average of all features from samples with the same subject_id
-def calculate_average(samples):
-
-    # instantiate dictionary for subjects with several features
-    subjects_with_several_features = {}
-
-    # loop through samples and extract features of all samples with the same subject_id
-    for sample in samples:
-        curr_subject_id = sample.subject_id
-        # add entry if subject_id is not yet in dictionary, else extract already recorded features and add current ones
-        if curr_subject_id not in subjects_with_several_features:
-            subjects_with_several_features[curr_subject_id] = [sample.features]
-        else:
-            subjects_with_several_features.get(curr_subject_id).append(sample.features)
-
+def calculate_average(cohort_probes):
     # instantiate dictionary for subjects w/ averaged features
     averaged_features = {}
 
     # loop through subjects with several features to calculate the average
-    for subject_id, features in subjects_with_several_features.items():
+    for subject_id, features in cohort_probes.items():
         # calculate the average of all features
         curr_average_features = np.mean(features, axis=0)
         # add average to dictionary
@@ -143,23 +129,23 @@ def calculate_average(samples):
 
 
 # used to calculate cosine distances between one probe/gallery and cohort
-def get_cosine_distances(sample, reference_samples):
+def get_cosine_distances(sample, cohort_samples):
     # instantiate list for calculated cosine distances between sample and all cohort samples
     cosine_distances = []
 
-    for key in sorted(reference_samples.keys()):
+    for key in sorted(cohort_samples.keys()):
         # calculate and save cosine distance between sample and current cohort sample
         cosine_distances.append(
-            scipy.spatial.distance.cosine(sample.features, reference_samples[key])
+            scipy.spatial.distance.cosine(sample.features, cohort_samples[key])
         )
 
     return np.array(cosine_distances)
 
 
 # used to convert cosine distances into rank lists
-def generate_rank_list(samples, reference_samples):
+def generate_rank_list(samples, cohort_samples):
     for sample in samples:
-        cosine_distances = get_cosine_distances(sample, reference_samples)
+        cosine_distances = get_cosine_distances(sample, cohort_samples)
         # use argsort to convert into array of orders
         order = np.argsort(cosine_distances)
         # use argsort again to convert into rank list and add it to sample
@@ -167,26 +153,26 @@ def generate_rank_list(samples, reference_samples):
 
 
 # used to standardize lists with cosine distances
-def standardize(samples, reference_samples):
+def standardize(samples, cohort_samples):
     for sample in samples:
-        cosine_distances = get_cosine_distances(sample, reference_samples)
+        cosine_distances = get_cosine_distances(sample, cohort_samples)
         # subtract mean from list and divide by standard deviation
         sample.standardized_distances = np.divide(np.subtract(cosine_distances, np.mean(cosine_distances)),
                                                   np.std(cosine_distances))
 
 
 # used to subtract mean from lists with cosine distances
-def subtract_mean(samples, reference_samples):
+def subtract_mean(samples, cohort_samples):
     for sample in samples:
-        cosine_distances = get_cosine_distances(sample, reference_samples)
+        cosine_distances = get_cosine_distances(sample, cohort_samples)
         # subtract mean from list
         sample.standardized_distances = np.subtract(cosine_distances, np.mean(cosine_distances))
 
 
 # used to omit standardization
-def omitted(samples, reference_samples):
+def omitted(samples, cohort_samples):
     for sample in samples:
-        cosine_distances = get_cosine_distances(sample, reference_samples)
+        cosine_distances = get_cosine_distances(sample, cohort_samples)
         # directly assign without standardization
         sample.standardized_distances = cosine_distances
 
