@@ -1,5 +1,5 @@
-# Bob Face Recognition
-This repository serves as code base for my bachelor thesis on face recognition with low resolution images.
+# Low-Resolution Face Recognition using Rank Lists
+This repository serves as code base for my bachelor thesis.
 
 ## Installation / Virtual Environment (Linux)
 1. First install [mambaforge](https://github.com/conda-forge/miniforge#mambaforge).
