@@ -16,7 +16,7 @@ from helpers.categories import get_rank_list_comparison, get_standardization_com
 # define choices for arguments
 # available_protocols = ["close", "medium", "far", "combined", "IR"]
 available_protocols = ["close", "medium", "far", "all"]
-available_methods = ["baseline", "mueller2010", "mueller2013", "schroff", "wartmann", "spearman", "kendall",
+available_methods = ["baseline", "mueller2010", "schroff", "mueller2013", "wartmann", "spearman", "kendall",
                      "weighted_kendall", "cosine", "braycurtis", "canberra", "cityblock", "sqeuclidean", "minkowski",
                      "rank_list_comparison", "standardization_comparison", "all"]
 available_standardization = ["standardize", "subtract_mean", "omitted"]
