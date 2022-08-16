@@ -1,6 +1,0 @@
-comparison_method    close_recog_rate     medium_recog_rate    far_recog_rate       runtime              preprocess_method    preprocess_time
-minkowski-1          93.18 %              67.27 %              27.27 %              127.2220 ms          subtract_mean        936.6750 ms
-minkowski-2          94.55 %              71.82 %              26.36 %              100.0205 ms          subtract_mean        936.6750 ms
-minkowski-3          94.09 %              65.45 %              26.36 %              209.0894 ms          subtract_mean        936.6750 ms
-minkowski-5          87.73 %              55.00 %              21.82 %              217.8238 ms          subtract_mean        936.6750 ms
-minkowski-10         76.36 %              40.91 %              16.36 %              253.2471 ms          subtract_mean        936.6750 ms
