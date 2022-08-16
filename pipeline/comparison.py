@@ -20,8 +20,8 @@ from helpers.file_writing import file_creation, save_scores, save_results, close
 
 
 # used for rank list comparison methods
-mueller2013_lambda = 0.99
 schroff_k = 43
+mueller2013_lambda = 0.99
 wartmann_alpha = 1
 wartmann_beta = 1
 minkowski_p = 2
