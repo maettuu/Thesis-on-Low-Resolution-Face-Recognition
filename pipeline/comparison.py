@@ -265,6 +265,6 @@ def run_comparison(probe_samples, gallery_samples, category, comparison_method, 
 
     # save recognition rate and runtime before closing files
     if record_output:
-        recognition_rate = ("{:.2f}".format(recognition_rate * 100)) + " %"
+        recognition_rate = "{:.2f}".format(recognition_rate * 100)
         save_results(comparison_method, protocol, recognition_rate, runtime)
         close_files()

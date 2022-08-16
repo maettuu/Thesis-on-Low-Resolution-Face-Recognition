@@ -45,7 +45,8 @@ class RecognitionItem:
 
 scores_dev = None
 scores_writer = None
-recognition_file = None
+recognition_dev = None
+recognition_writer = None
 current_recognition = RecognitionItem()
 
 
@@ -80,7 +81,8 @@ def file_creation(comparison_method, protocol, record_output):
     # initialize file helpers
     global scores_dev
     global scores_writer
-    global recognition_file
+    global recognition_dev
+    global recognition_writer
 
     if record_output:
         # create output directory
@@ -96,23 +98,21 @@ def file_creation(comparison_method, protocol, record_output):
         scores_writer.writerow(scores_header)
 
         # file for recognition rates and runtime, create if non-existent
-        recognition_file = open("output/recognition-rates-and-runtime.txt", 'a+')
+        recognition_dev = open("output/recognition-rates-and-runtime.csv", 'a+')
+        recognition_writer = csv.writer(recognition_dev)
         # seek to beginning of file and check for content
-        recognition_file.seek(0)
+        recognition_dev.seek(0)
 
         # add header if file is empty (i.e. was newly created),
         # otherwise close and re-open to set cursor to end of file
-        if not recognition_file.readlines():
-            recognition_file.write(f'{"comparison_method":{20}} '
-                                   f'{"close_recog_rate":{20}} '
-                                   f'{"medium_recog_rate":{20}} '
-                                   f'{"far_recog_rate":{20}} '
-                                   f'{"runtime":{20}} '
-                                   f'{"preprocess_method":{20}} '
-                                   f'{"preprocess_time"}\n')
+        if not recognition_dev.readline():
+            recognition_header = ['comparison_method', 'close_recog_rate (%)', 'medium_recog_rate (%)', 'far_recog_rate (%)',
+                                  'runtime (ms)', 'preprocess_method', 'preprocess_time (ms)']
+            recognition_writer.writerow(recognition_header)
         else:
-            recognition_file.close()
-            recognition_file = open("output/recognition-rates-and-runtime.txt", 'a')
+            recognition_dev.close()
+            recognition_dev = open("output/recognition-rates-and-runtime.csv", 'a')
+            recognition_writer = csv.writer(recognition_dev)
 
 
 # used to save similarity scores from each comparison
@@ -122,58 +122,48 @@ def save_scores(data):
 
 
 # used to turn runtime into string
-def to_string_runtime(runtime):
-    return ("{:.4f}".format(runtime * 1000)) + " ms"
+def round_runtime(runtime):
+    return "{:.4f}".format(runtime * 1000)
 
 
 # used to print recognition rate and runtime of close protocol
 def close(comparison_method, recognition_rate, runtime):
-    if recognition_file:
+    if recognition_writer:
         global current_recognition
         current_recognition.close_rate = recognition_rate
         current_recognition.close_runtime = runtime
         runtime = runtime + current_recognition.preprocess_close_time
-        recognition_file.write(f'{comparison_method:{20}} '
-                               f'{recognition_rate:{20}} '
-                               f'{"":{20}} '
-                               f'{"":{20}} '
-                               f'{to_string_runtime(runtime):{20}} '
-                               f'{current_recognition.preprocess_method:{20}} '
-                               f'{to_string_runtime(current_recognition.preprocess_close_time)}\n')
+        data = [comparison_method, recognition_rate, "", "", round_runtime(runtime),
+                current_recognition.preprocess_method, round_runtime(current_recognition.preprocess_close_time)]
+        recognition_writer.writerow(data)
 
 
 # used to print recognition rate and runtime of medium protocol
 def medium(comparison_method, recognition_rate, runtime):
-    if recognition_file:
+    if recognition_writer:
         global current_recognition
         current_recognition.medium_rate = recognition_rate
         current_recognition.medium_runtime = runtime
         average_preprocess_time = current_recognition.get_average_preprocess_time()
         average_runtime = current_recognition.get_average_runtime() + average_preprocess_time
-        recognition_file.write(f'{comparison_method:{20}} '
-                               f'{current_recognition.close_rate:{20}} '
-                               f'{recognition_rate:{20}} '
-                               f'{"":{20}} '
-                               f'{to_string_runtime(average_runtime):{20}} '
-                               f'{current_recognition.preprocess_method:{20}} '
-                               f'{to_string_runtime(average_preprocess_time)}\n')
+        data = [comparison_method, current_recognition.close_rate, recognition_rate, "",
+                round_runtime(average_runtime), current_recognition.preprocess_method,
+                round_runtime(average_preprocess_time)]
+        recognition_writer.writerow(data)
 
 
 # used to print recognition rate and runtime of far protocol
 def far(comparison_method, recognition_rate, runtime):
-    if recognition_file:
+    if recognition_writer:
         global current_recognition
         current_recognition.far_rate = recognition_rate
         current_recognition.far_runtime = runtime
         average_preprocess_time = current_recognition.get_average_preprocess_time()
         average_runtime = current_recognition.get_average_runtime() + average_preprocess_time
-        recognition_file.write(f'{comparison_method:{20}} '
-                               f'{current_recognition.close_rate:{20}} '
-                               f'{current_recognition.medium_rate:{20}} '
-                               f'{recognition_rate:{20}} '
-                               f'{to_string_runtime(average_runtime):{20}} '
-                               f'{current_recognition.preprocess_method:{20}} '
-                               f'{to_string_runtime(average_preprocess_time)}\n')
+        data = [comparison_method, current_recognition.close_rate, current_recognition.medium_rate, recognition_rate,
+                round_runtime(average_runtime), current_recognition.preprocess_method,
+                round_runtime(average_preprocess_time)]
+        recognition_writer.writerow(data)
         current_recognition = RecognitionItem()
 
 
@@ -198,8 +188,8 @@ def set_preprocess_time(preprocess_method, protocol, preprocess_time):
 # used to close all files
 def close_files():
     global scores_dev
-    global recognition_file
+    global recognition_dev
     if scores_dev:
         scores_dev.close()
-    if recognition_file:
-        recognition_file.close()
+    if recognition_dev:
+        recognition_dev.close()

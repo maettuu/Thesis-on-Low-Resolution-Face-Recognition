@@ -34,7 +34,7 @@ def parse_input():
 
     # add arguments
     parser.add_argument("--comparison_method", "-c",
-                        default="rank_list_comparison",
+                        default="all",
                         choices=available_methods,
                         help="Select the comparison method"
                         )
@@ -86,14 +86,10 @@ def generate_lists(comparison_method, protocol):
         comparison_methods = filter_methods(available_methods, categorical_arguments)
         # filter out all standardization methods
         if comparison_method == "rank_list_comparison":
-            rank_list_filter = get_standardization_comparison()
-            rank_list_filter.append("baseline")
-            comparison_methods = filter_methods(comparison_methods, rank_list_filter)
+            comparison_methods = get_rank_list_comparison()
         # filter out all rank list methods
         elif comparison_method == "standardization_comparison":
-            standardization_filter = get_rank_list_comparison()
-            standardization_filter.append("baseline")
-            comparison_methods = filter_methods(comparison_methods, standardization_filter)
+            comparison_methods = get_standardization_comparison()
 
     if protocol == "all":
         available_protocols.remove("all")
