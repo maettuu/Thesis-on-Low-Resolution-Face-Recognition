@@ -1,0 +1,16 @@
+comparison_method,close_recog_rate (%),medium_recog_rate (%),far_recog_rate (%),runtime (ms),preprocess_method,preprocess_time (ms)
+cosine,78.64,,,776.4365,omitted,510.0875
+cosine,78.64,43.64,,789.3406,omitted,510.8905
+cosine,78.64,43.64,18.64,844.0956,omitted,566.7245
+braycurtis,62.73,,,602.6634,omitted,505.5457
+braycurtis,62.73,26.36,,611.5493,omitted,506.7498
+braycurtis,62.73,26.36,6.82,626.2914,omitted,510.7071
+canberra,64.55,,,727.2736,omitted,494.4346
+canberra,64.55,28.18,,760.5467,omitted,502.8807
+canberra,64.55,28.18,6.36,765.5324,omitted,512.7429
+cityblock,63.18,,,562.9227,omitted,489.6544
+cityblock,63.18,26.82,,568.4174,omitted,488.9947
+cityblock,63.18,26.82,6.36,576.3784,omitted,491.3629
+sqeuclidean,67.73,,,644.4376,omitted,553.5571
+sqeuclidean,67.73,33.18,,660.7087,omitted,557.9475
+sqeuclidean,67.73,33.18,11.82,677.6718,omitted,572.3415

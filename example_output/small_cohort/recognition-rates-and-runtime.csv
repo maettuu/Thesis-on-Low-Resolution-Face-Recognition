@@ -1,0 +1,13 @@
+comparison_method,close_recog_rate (%),medium_recog_rate (%),far_recog_rate (%),runtime (ms),preprocess_method,preprocess_time (ms)
+mueller2010,48.64,,,776.5039,rank-list,576.4228
+mueller2010,48.64,25.45,,751.2801,rank-list,544.7060
+mueller2010,48.64,25.45,15.91,727.7431,rank-list,526.1533
+spearman,83.64,,,3375.6573,rank-list,496.2017
+spearman,83.64,50.45,,3374.9896,rank-list,498.4897
+spearman,83.64,50.45,12.73,3367.9857,rank-list,499.5339
+kendall,81.82,,,3251.1924,rank-list,501.9472
+kendall,81.82,48.64,,3267.9500,rank-list,501.6766
+kendall,81.82,48.64,14.55,3279.2003,rank-list,506.7100
+weighted_kendall,68.64,,,1686.0933,rank-list,502.3107
+weighted_kendall,68.64,32.73,,1698.4225,rank-list,506.1242
+weighted_kendall,68.64,32.73,9.09,1740.7247,rank-list,508.1246

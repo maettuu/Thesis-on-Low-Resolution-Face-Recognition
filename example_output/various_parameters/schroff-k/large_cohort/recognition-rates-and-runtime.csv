@@ -1,0 +1,13 @@
+comparison_method,close_recog_rate (%),medium_recog_rate (%),far_recog_rate (%),runtime (ms),parameter_value,preprocess_method,preprocess_time (ms)
+schroff,73.18,,,4040.1920,20.0,rank-list,935.3098
+schroff,73.18,44.09,,4070.8753,20.0,rank-list,950.5838
+schroff,73.18,44.09,14.55,4096.1895,20.0,rank-list,962.6328
+schroff,91.82,,,4105.3336,40.0,rank-list,1005.5465
+schroff,91.82,65.45,,4123.1095,40.0,rank-list,1011.5601
+schroff,91.82,65.45,19.09,4139.6317,40.0,rank-list,1019.6358
+schroff,96.36,,,4127.1564,60.0,rank-list,1014.0379
+schroff,96.36,71.82,,4148.7321,60.0,rank-list,1018.5663
+schroff,96.36,71.82,23.64,4167.1402,60.0,rank-list,1022.4232
+schroff,97.27,,,4035.7116,86.0,rank-list,997.6271
+schroff,97.27,71.36,,4063.0697,86.0,rank-list,1007.3852
+schroff,97.27,71.36,27.27,4076.3657,86.0,rank-list,1011.3444

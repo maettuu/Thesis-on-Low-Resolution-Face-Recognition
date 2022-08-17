@@ -1,9 +1,0 @@
-comparison_method    close_recog_rate     medium_recog_rate    far_recog_rate       runtime              preprocess_method    preprocess_time
-braycurtis           83.64 %              48.18 %              15.91 %              90.6057 ms           standardize          505.1892 ms
-canberra             63.18 %              33.64 %              12.73 %              227.3899 ms          standardize          554.7205 ms
-chebyshev            53.18 %              23.18 %              10.00 %              84.3021 ms           standardize          497.3419 ms
-cityblock            81.36 %              48.18 %              16.82 %              71.2158 ms           standardize          540.1968 ms
-cosine               88.18 %              50.00 %              17.27 %              263.9377 ms          standardize          558.9619 ms
-euclidean            88.18 %              50.00 %              17.27 %              96.0887 ms           standardize          515.9524 ms
-minkowski            88.18 %              50.00 %              17.27 %              90.8662 ms           standardize          491.7493 ms
-sqeuclidean          88.18 %              50.00 %              17.27 %              82.0783 ms           standardize          526.7002 ms

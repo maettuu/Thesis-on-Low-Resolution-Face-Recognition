@@ -1,4 +1,0 @@
-comparison_method    close_recog_rate     medium_recog_rate    far_recog_rate       runtime              preprocess_method    preprocess_time
-mueller2013-0.90     76.82 %              45.91 %              16.82 %              2031.3048 ms         rank-list            933.9774 ms
-mueller2013-0.95     92.27 %              65.45 %              20.91 %              1972.1734 ms         rank-list            933.9774 ms
-mueller2013-0.99     97.27 %              73.64 %              27.27 %              1842.2005 ms         rank-list            933.9774 ms

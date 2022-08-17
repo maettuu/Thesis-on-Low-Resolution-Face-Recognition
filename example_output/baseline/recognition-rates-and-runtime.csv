@@ -1,0 +1,4 @@
+comparison_method,close_recog_rate (%),medium_recog_rate (%),far_recog_rate (%),runtime (ms),preprocess_method,preprocess_time (ms)
+baseline,100.00,,,377.4039,baseline,0.0000
+baseline,100.00,98.18,,379.6697,baseline,0.0000
+baseline,100.00,98.18,74.09,382.3718,baseline,0.0000

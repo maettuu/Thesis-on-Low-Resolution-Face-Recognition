@@ -1,6 +1,0 @@
-comparison_method    close_recog_rate     medium_recog_rate    far_recog_rate       runtime              preprocess_method    preprocess_time
-schroff-10           44.55 %              27.73 %              16.36 %              401.3078 ms          rank-list            529.5176 ms
-schroff-20           70.00 %              35.91 %              16.36 %              553.2957 ms          rank-list            529.5176 ms
-schroff-30           76.36 %              46.82 %              13.18 %              393.2006 ms          rank-list            529.5176 ms
-schroff-43           83.64 %              50.45 %              12.73 %              369.1133 ms          rank-list            529.5176 ms
-schroff-60           83.64 %              50.45 %              12.73 %              428.1935 ms          rank-list            529.5176 ms
