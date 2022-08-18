@@ -1,10 +1,10 @@
-comparison_method,close_recog_rate (%),medium_recog_rate (%),far_recog_rate (%),runtime (ms),parameter_value,preprocess_method,preprocess_time (ms)
-mueller2013,70.00,,,1469.6330,0.9,rank-list,517.3662
-mueller2013,70.00,38.64,,1454.0237,0.9,rank-list,518.2500
-mueller2013,70.00,38.64,17.73,1452.5870,0.9,rank-list,519.6604
-mueller2013,76.36,,,1432.1693,0.95,rank-list,519.6594
-mueller2013,76.36,43.64,,1433.7907,0.95,rank-list,519.9087
-mueller2013,76.36,43.64,15.91,1458.3625,0.95,rank-list,541.5737
-mueller2013,81.82,,,1428.7558,0.99,rank-list,524.2398
-mueller2013,81.82,50.00,,1469.6239,0.99,rank-list,564.7058
-mueller2013,81.82,50.00,14.09,1462.7740,0.99,rank-list,555.6843
+comparison_method,close_recog_rate (%),medium_recog_rate (%),far_recog_rate (%),parameter_value,preprocess_method
+mueller2013,70,,,0.9,rank-list
+mueller2013,70,38.64,,0.9,rank-list
+mueller2013,70,38.64,17.73,0.9,rank-list
+mueller2013,76.36,,,0.95,rank-list
+mueller2013,76.36,43.64,,0.95,rank-list
+mueller2013,76.36,43.64,15.91,0.95,rank-list
+mueller2013,81.82,,,0.99,rank-list
+mueller2013,81.82,50,,0.99,rank-list
+mueller2013,81.82,50,14.09,0.99,rank-list

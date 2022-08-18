@@ -14,3 +14,6 @@ cityblock,63.18,26.82,6.36,576.3784,omitted,491.3629
 sqeuclidean,67.73,,,644.4376,omitted,553.5571
 sqeuclidean,67.73,33.18,,660.7087,omitted,557.9475
 sqeuclidean,67.73,33.18,11.82,677.6718,omitted,572.3415
+minkowski,67.73,,,595.9525,omitted,501.4364
+minkowski,67.73,33.18,,593.7853,omitted,499.0774
+minkowski,67.73,33.18,11.82,594.4734,omitted,499.9044

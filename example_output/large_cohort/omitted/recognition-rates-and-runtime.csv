@@ -6,11 +6,14 @@ braycurtis,79.55,,,1038.8974,omitted,939.0363
 braycurtis,79.55,40.91,,1062.9236,omitted,962.1196
 braycurtis,79.55,40.91,6.36,1075.9546,omitted,975.0082
 canberra,79.55,,,1174.4297,omitted,941.0684
-canberra,79.55,41.82,,1198.3750,omitted,964.2231
+canberra,79.55,41.82,,1198.375,omitted,964.2231
 canberra,79.55,41.82,6.82,1222.0306,omitted,979.6223
 cityblock,78.18,,,1037.0489,omitted,960.2238
-cityblock,78.18,40.00,,1062.8681,omitted,984.6694
-cityblock,78.18,40.00,6.36,1082.0953,omitted,1003.4163
+cityblock,78.18,40,,1062.8681,omitted,984.6694
+cityblock,78.18,40,6.36,1082.0953,omitted,1003.4163
 sqeuclidean,83.18,,,1035.9389,omitted,951.9619
 sqeuclidean,83.18,46.36,,1067.2264,omitted,981.4179
 sqeuclidean,83.18,46.36,13.64,1081.1378,omitted,994.9841
+minkowski,83.18,,,1061.9431,omitted,961.5571
+minkowski,83.18,46.36,,1064.0977,omitted,963.0877
+minkowski,83.18,46.36,13.64,1071.235,omitted,969.9402
