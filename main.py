@@ -39,7 +39,7 @@ if __name__ == '__main__':
 ####################################################
 
 # bin/python main.py -c baseline -p close -r
-# bin/bob bio roc -v -o results.pdf baseline.csv
+# bin/bob bio roc -v -o baseline.pdf baseline.csv
 # bin/bob bio pipelines vanilla-biometrics scface-close ./simple_pipe.py -vvv -o samples_pipe_all -c --group eval
 # bin/bob bio pipelines vanilla-biometrics scface-close iresnet100
 # bin/bob bio evaluate ./results/scores-dev.csv
