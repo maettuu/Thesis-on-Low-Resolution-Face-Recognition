@@ -1,7 +1,4 @@
 comparison_method,close_recog_rate (%),medium_recog_rate (%),far_recog_rate (%),alpha,beta,preprocess_method
-wartmann,97.27,,,1.1,1.1,rank-list
-wartmann,97.27,71.82,,1.1,1.1,rank-list
-wartmann,97.27,71.82,27.27,1.1,1.1,rank-list
 wartmann,97.27,,,1.2,1.2,rank-list
 wartmann,97.27,71.82,,1.2,1.2,rank-list
 wartmann,97.27,71.82,26.36,1.2,1.2,rank-list
@@ -32,3 +29,6 @@ wartmann,97.27,70.91,27.27,2,2,rank-list
 wartmann,96.82,,,2.1,2.1,rank-list
 wartmann,96.82,70,,2.1,2.1,rank-list
 wartmann,96.82,70,27.27,2.1,2.1,rank-list
+wartmann,96.36,,,2.2,2.2,rank-list
+wartmann,96.36,69.55,,2.2,2.2,rank-list
+wartmann,96.36,69.55,28.18,2.2,2.2,rank-list

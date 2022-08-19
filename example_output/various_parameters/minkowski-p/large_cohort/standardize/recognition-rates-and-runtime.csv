@@ -1,16 +1,4 @@
 comparison_method,close_recog_rate (%),medium_recog_rate (%),far_recog_rate (%),parameter_value,preprocess_method
-minkowski,97.27,,,1.6,standardize
-minkowski,97.27,73.64,,1.6,standardize
-minkowski,97.27,73.64,27.73,1.6,standardize
-minkowski,97.73,,,1.7,standardize
-minkowski,97.73,74.09,,1.7,standardize
-minkowski,97.73,74.09,26.82,1.7,standardize
-minkowski,97.73,,,1.8,standardize
-minkowski,97.73,74.09,,1.8,standardize
-minkowski,97.73,74.09,27.27,1.8,standardize
-minkowski,97.73,,,1.9,standardize
-minkowski,97.73,74.55,,1.9,standardize
-minkowski,97.73,74.55,27.73,1.9,standardize
 minkowski,97.73,,,2,standardize
 minkowski,97.73,74.55,,2,standardize
 minkowski,97.73,74.55,27.73,2,standardize
@@ -32,3 +20,15 @@ minkowski,96.36,72.27,28.18,2.5,standardize
 minkowski,95.91,,,2.6,standardize
 minkowski,95.91,72.73,,2.6,standardize
 minkowski,95.91,72.73,29.55,2.6,standardize
+minkowski,95.45,,,2.7,standardize
+minkowski,95.45,72.73,,2.7,standardize
+minkowski,95.45,72.73,29.55,2.7,standardize
+minkowski,95.45,,,2.8,standardize
+minkowski,95.45,73.18,,2.8,standardize
+minkowski,95.45,73.18,29.09,2.8,standardize
+minkowski,95,,,2.9,standardize
+minkowski,95,73.18,,2.9,standardize
+minkowski,95,73.18,29.09,2.9,standardize
+minkowski,94.09,,,3,standardize
+minkowski,94.09,72.73,,3,standardize
+minkowski,94.09,72.73,28.18,3,standardize
