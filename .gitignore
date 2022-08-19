@@ -142,3 +142,5 @@ samples_pipe_all/
 # code generated files
 output/
 results/
+plots/minkowski.html
+plots/wartmann.html
