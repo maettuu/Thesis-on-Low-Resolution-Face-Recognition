@@ -7,7 +7,6 @@
 import pandas as pd
 from bokeh.plotting import figure, show
 from bokeh.models import ColumnDataSource
-from plots.minkowski import configure_plot
 
 
 ####################################################
@@ -58,6 +57,20 @@ def get_quad_args(left, right, df, protocol, start, end):
     column = protocol + "_recog_rate (%)"
     return dict(left=left, right=right, top=max(df[column].iloc[start:end]), bottom=min(df[column].iloc[start:end]),
                 color="black")
+
+
+# defines plot styles
+def configure_plot(plot, protocol):
+    plot.legend.location = "bottom_right"
+    plot.legend.label_text_font_size = "25px"
+    plot.axis.axis_label_text_font_size = "25px"
+    plot.axis.axis_line_width = 2
+    plot.axis.major_label_text_font_size = "25px"
+    plot.axis.major_tick_line_width = 2
+    plot.axis.minor_tick_line_width = 2
+
+    if protocol == "far":
+        plot.legend.location = "top_left"
 
 
 # used to generate plot
