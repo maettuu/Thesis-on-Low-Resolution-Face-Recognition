@@ -64,15 +64,9 @@ Include to record scores such as recognition rates, score files, preprocessing t
 Include to extend the cohort with 43 samples (default: `False`)
 
 ## Evaluation of Results
-If the recording of scores is enabled, an output folder is created in which there are `.csv` files for every comparison method and protocol used for verification as well as a `.txt` file containing the recognition rates and averaged runtimes used for identification.\
+If the recording of scores is enabled, an `output` directory is created in which there are `.csv` files for every comparison method and protocol used for verification as well as a `.csv` file containing the recognition rates used for identification.\
 To evaluate the verification results use the following command including the files you wish to visualize:
 ```
 bin/bob bio roc -v -o <output-filename>.pdf -ts "<graph-title>" -lg <line-names> <csv-files>
 ```
-
-## Observations
-The following properties were observed:
-* The rank list comparison method `spearman` has the same results (both identification and verification) as the method `schroff`, however the latter proves to be faster in execution.
-* If `p=1` is chosen for the standardization comparison method `minkowski` the results (both identification and verification) are the same as `cityblock` by means of definition. Similarly, for `p=2` and `sqeuclidean`.
-* The standardization comparison method `cosine` has the same results (both identification and verification) as the method `sqeuclidean` for `standardize` preprocessing, however proves to be slower in execution.
-* The standardization comparison methods `cosine` and `braycurtis` have the same verification results for `standardize` and `subtract_mean`.
+The repository additionally includes an `example_output` directory which includes plots and recorded output. Furthermore, the `plots` repository includes python executables for the comparison methods `wartmann` and `minkowski` which generate plots with values computed with various parameters.
