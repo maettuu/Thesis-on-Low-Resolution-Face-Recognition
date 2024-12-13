@@ -1,5 +1,5 @@
-# Low-Resolution Face Recognition using Rank Lists
-This repository serves as code base for the corresponding bachelor thesis.
+# Bachelor's Thesis: Low-Resolution Face Recognition using Rank Lists
+This repository serves as code base for the corresponding [bachelor's thesis](https://capuana.ifi.uzh.ch/publications/PDFs/22681_1_Bachelor_Thesis_Matthias_Mylaeus.pdf).
 
 ## Installation / Virtual Environment (Linux)
 1. First, install [mambaforge](https://github.com/conda-forge/miniforge#mambaforge).
